@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Stage, Layer, Rect } from 'react-konva'
 import '../styles/Board.css'
-import Ship from './Ship'
-import Asteroid from './Asteroid'
-import Laser from './Laser'
+import Ship from '../components/Ship'
+import Asteroid from '../components/Asteroid'
+import Laser from '../components/Laser'
+import { screen } from '../helpers'
 
 class Board extends Component {
   constructor(props) {
@@ -35,14 +38,17 @@ class Board extends Component {
 
   componentDidMount() {
     console.log('board component mounted')
-    const context = this.refs.canvas.getContext('2d')
-    context.fillStyle = 'white'
-    context.fillRect(100, 100, 100, 100)
+    // const context = this.refs.canvas.getContext('2d')
+    // context.fillStyle = 'white'
+    // context.fillRect(100, 100, 100, 100)
   }
 
-
-
   render() {
+
+    let {
+      ship
+    } = this.props
+
     return (
       <div className="Board">
         <span className="score current-score">Score: {this.currentScore}</span>
@@ -51,13 +57,31 @@ class Board extends Component {
           Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
           Use [SPACE] to SHOOT
         </span>
-        <canvas ref="canvas"
+        <Stage 
+          width={screen.width}
+          height={screen.height}
+        >
+          <Layer>
+            <Rect
+              width={screen.width}
+              height={screen.height}
+            />
+            <Ship 
+              position={ship.position}
+              rotation={ship.rotation}
+              radius={ship.radius}
+            />
+          </Layer>
+        </Stage>
+        {/* <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
-        />
+        /> */}
       </div>
     )
   }
 }
 
-export default Board
+export default connect((state) => ({
+  ship: state.ship
+}))(Board)

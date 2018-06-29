@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Line } from 'react-konva'
 
 class Ship extends Component {
   constructor(props) {
@@ -6,10 +8,24 @@ class Ship extends Component {
   }
 
   render() {
+    let {position, rotation, radius} = this.props
     return (
-      <div className="Ship">
-
-      </div>
+      <Line
+        x={position.x}
+        y={position.y}
+        points={
+          [
+            -(radius * 2), -radius,
+            radius * 2, 0,
+            -(radius * 2), radius,
+            -radius, 0
+          ]
+        }
+        strokeWidth={1}
+        stroke="#ffffff"
+        closed="true"
+        rotation={rotation}
+      />
     )
   }
 }
