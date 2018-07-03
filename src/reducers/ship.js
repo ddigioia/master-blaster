@@ -2,7 +2,8 @@ import * as constants from '../constants'
 import {
   screen,
   calcXDist,
-  calcYDist
+  calcYDist,
+  updateObj
 } from '../helpers'
 
 const resetShip = {
@@ -22,47 +23,52 @@ function initShip() {
     direction: 0,
     rotation: 0,
     position: {
-      x: Math.round(screen.width / 2),
-      y: Math.round(screen.height / 2)
+      x: Math.round(screen.width() / 2),
+      y: Math.round(screen.height() / 2)
     },
-    radius: screen.width / constants.SHIP_SCALE,
+    radius: screen.width() / constants.SHIP_SCALE,
     rotationSpeed: 0,
     speed: 0
   }
 }
 
-export default function ship(state = (() => {
-  return Object.assign({}, state, resetShip)
-})(), action) {
-  var rotation;
+export default function ship(state, action) {
+
+  console.log('TYPE OF STATE: ', typeof state)
+  if (typeof state === undefined) {
+    state = updateObj(state, resetShip)
+  }
+  console.log('SHIP STATE: ', state)
+
+  let rotation
   switch (action.type) {
     case constants.START:
-      return Object.assign({}, state, initShip());
+      return updateObj(state, initShip())
     case constants.ROTATE_RIGHT:
-      return Object.assign({}, state, {
+      return updateObj(state, {
         rotationSpeed: constants.SHIP_ROTATION_SPEED
-      });
+      })
     case constants.ROTATE_LEFT:
-      return Object.assign({}, state, {
+      return updateObj(state, {
         rotationSpeed: -constants.SHIP_ROTATION_SPEED
-      });
+      })
     case constants.FORWARD:
-      return Object.assign({}, state, {
+      return updateObj(state, {
         speed: state.speed = constants.SHIP_ACCL
-      });
+      })
     case constants.STOP:
-      return Object.assign({}, state, {
+      return updateObj(state, {
         speed: 0
-      });
+      })
     case constants.STOP_ROTATION:
-      return Object.assign({}, state, {
+      return updateObj(state, {
         rotationSpeed: 0
-      });
+      })
     case constants.GAME_OVER:
-      return Object.assign({}, state, resetShip);
+      return updateObj(state, resetShip)
     case constants.UPDATE:
-      rotation = (state.rotation + 360 + state.rotationSpeed) % 360;
-      return Object.assign({}, state, {
+      rotation = (state.rotation + 360 + state.rotationSpeed) % 360
+      return updateObj(state, {
         position: {
           x: (state.position.x + calcXDist(state.direction, state.speed) +
             screen.width) % screen.width,
@@ -71,8 +77,8 @@ export default function ship(state = (() => {
         },
         rotation: rotation,
         direction: rotation
-      });
+      })
     default:
-      return state;
+      return updateObj(state, resetShip) // idk if this should be the case
   }
 }

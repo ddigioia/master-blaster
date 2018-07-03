@@ -20,6 +20,10 @@ export function calcYDist(rotation, distance) {
   return Math.sin(rotation * Math.PI / 180) * distance
 }
 
+export function updateObj(initialObj, newObj) {
+  return Object.assign({}, initialObj, newObj)
+}
+
 export let screen = {
   _width: null,
   _height: null,

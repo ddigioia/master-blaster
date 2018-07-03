@@ -9,6 +9,10 @@ class Ship extends Component {
 
   render() {
     let {position, rotation, radius} = this.props
+    console.log('position: ', position)
+    console.log('rotation: ', rotation)
+    console.log('radius: ', radius)
+
     return (
       <Line
         x={position.x}

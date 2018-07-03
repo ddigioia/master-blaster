@@ -5,6 +5,7 @@ import '../styles/Board.css'
 import Ship from '../components/Ship'
 import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
+import Particle from '../components/Particle'
 import { screen } from '../helpers'
 
 class Board extends Component {
@@ -46,7 +47,10 @@ class Board extends Component {
   render() {
 
     let {
-      ship
+      ship,
+      asteroid,
+      laser,
+      particle
     } = this.props
 
     return (
@@ -57,16 +61,16 @@ class Board extends Component {
           Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
           Use [SPACE] to SHOOT
         </span>
-        <Stage 
-          width={screen.width}
-          height={screen.height}
+        <Stage
+          width={screen.width()}
+          height={screen.height()}
         >
           <Layer>
             <Rect
-              width={screen.width}
-              height={screen.height}
+              width={screen.width()}
+              height={screen.height()}
             />
-            <Ship 
+            <Ship
               position={ship.position}
               rotation={ship.rotation}
               radius={ship.radius}
@@ -83,5 +87,8 @@ class Board extends Component {
 }
 
 export default connect((state) => ({
-  ship: state.ship
+  ship: state.ship,
+  asteroid: state.asteroid,
+  laser: state.laser,
+  particle: state.particle
 }))(Board)
