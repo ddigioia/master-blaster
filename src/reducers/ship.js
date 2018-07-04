@@ -34,13 +34,13 @@ function initShip() {
 
 export default function ship(state, action) {
 
-  console.log('TYPE OF STATE: ', typeof state)
-  if (typeof state === undefined) {
+  if (typeof state === 'undefined') {
     state = updateObj(state, resetShip)
   }
   console.log('SHIP STATE: ', state)
 
   let rotation
+
   switch (action.type) {
     case constants.START:
       return updateObj(state, initShip())
@@ -71,14 +71,14 @@ export default function ship(state, action) {
       return updateObj(state, {
         position: {
           x: (state.position.x + calcXDist(state.direction, state.speed) +
-            screen.width) % screen.width,
+            screen.width()) % screen.width(),
           y: (state.position.y + calcYDist(state.direction, state.speed) +
-            screen.height) % screen.height
+            screen.height()) % screen.height()
         },
         rotation: rotation,
         direction: rotation
       })
     default:
-      return updateObj(state, resetShip) // idk if this should be the case
+      return state
   }
 }

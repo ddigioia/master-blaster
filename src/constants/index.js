@@ -1,5 +1,5 @@
 // game specific constants
-export const SHIP_ROTATION_SPEED = 5
+export const SHIP_ROTATION_SPEED = 15
 export const SHIP_ACCL = 7
 export const SHIP_SCALE = 66
 export const SHIP_FRAGMENT_COUNT = 3

@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Line } from 'react-konva'
 
 class Ship extends Component {
-  constructor(props) {
-    super()
-  }
 
   render() {
     let {position, rotation, radius} = this.props
