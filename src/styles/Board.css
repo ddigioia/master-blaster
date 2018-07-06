@@ -1,3 +1,26 @@
 .Board {
   color: white;
+  font-size: 0.75em;
+  /* font-family: PT Mono,serif; */
+}
+
+.score-con {
+  height: 20px;
+  padding: 0 20px 0 0;
+}
+
+.score-con .current-score {
+  float: left;
+}
+
+.score-con .top-score {
+  float: right;
+}
+
+.intro {
+  font-size: large;
+}
+
+.controls {
+
 }

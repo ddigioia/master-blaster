@@ -37,7 +37,6 @@ export default function ship(state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, resetShip)
   }
-  console.log('SHIP STATE: ', state)
 
   let rotation
 

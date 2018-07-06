@@ -20,11 +20,8 @@ class App extends Component {
     return (
       <div className="App" onClick={this.handleClick}>
         <header className="App-header">
-          <h1 className="App-title">Welcome to Master Blaster!!!</h1>
+          <h1 className="App-title">Welcome to Master Blaster !!!</h1>
         </header>
-        <p className="App-intro">
-          To get started, press any key.
-        </p>
         <Board />
       </div>
     )

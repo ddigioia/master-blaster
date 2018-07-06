@@ -4,7 +4,7 @@ import { Stage, Layer, Rect } from 'react-konva'
 import '../styles/Board.css'
 import Ship from '../components/Ship'
 // import Asteroid from '../components/Asteroid'
-// import Laser from '../components/Laser'
+import Laser from '../components/Laser'
 // import Particle from '../components/Particle'
 import { screen } from '../helpers'
 import * as constants from '../constants'
@@ -27,14 +27,8 @@ class Board extends Component {
   }
 
   handleKeyDown(event) {
-    let laserOrigin
-    let rotation
-    let x
-    let y
-
     switch(event.keyCode) {
       case constants.LEFT:
-      debugger
         this.props.rotateLeft()
         break
       case constants.RIGHT:
@@ -44,8 +38,8 @@ class Board extends Component {
         this.props.forward()
         break
       case constants.SPACE:
-        ({rotation, position: {x, y}} = this.props.ship)
-        laserOrigin = {rotation, position: {x, y}}
+        let {rotation, position: {x, y}, radius} = this.props.ship
+        let laserOrigin = {rotation, position: {x, y}, radius}
         this.props.fire(laserOrigin)
         break
       default:
@@ -55,19 +49,26 @@ class Board extends Component {
   }
 
   updateGame() {
-    // this.props.dispatch(asteroidHitTest())
-    // this.props.dispatch(shipHitTest())
+    // this.props.asteroidHitTest()
+    // this.props.shipHitTest()
     this.props.update()
     // requestAnimationFrame(this.updateGame.bind(this))
   }
 
   handleKeyUp() {
-    this.updateGame()
+    // this.updateGame()
   }
 
   componentDidMount() {
-    console.log('board component mounted')
     this.updateGame()
+  }
+
+  getCurrentScore() {
+    return 0
+  }
+
+  getTopScore() {
+    return window.localStorage.getItem('masterBlasterTopScore') || 0
   }
 
   render() {
@@ -75,7 +76,7 @@ class Board extends Component {
     let {
       ship,
       // asteroid,
-      // laser,
+      laser,
       // particle
     } = this.props
 
@@ -85,11 +86,16 @@ class Board extends Component {
         onKeyUp={this.handleKeyUp}
         tabIndex="0"
       >
-        <span className="score current-score">Score: {this.currentScore}</span>
-        <span className="score top-score">Top Score: {this.topScore}</span>
+        <div className="score-con">
+          <span className="score current-score">Score: {this.getCurrentScore()}</span>
+          <span className="score top-score">Top Score: {this.getTopScore()}</span>
+        </div>
+        <p className="intro">
+          To get started, press any key.
+        </p>
         <span className="controls" >
-          Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
-          Use [SPACE] to SHOOT
+          Use [ A ][ S ][ W ][ D ] or [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br/>
+          Use [ SPACE ] to SHOOT
         </span>
         <Stage
           width={screen.width()}
@@ -105,12 +111,13 @@ class Board extends Component {
               rotation={ship.rotation}
               radius={ship.radius}
             />
+            <Laser
+              rotation={laser.rotation}
+              position={laser.position}
+              radius={laser.radius}
+            />
           </Layer>
         </Stage>
-        {/* <canvas ref="canvas"
-          width={this.state.screen.width * this.state.screen.ratio}
-          height={this.state.screen.height * this.state.screen.ratio}
-        /> */}
       </div>
     )
   }
@@ -121,7 +128,7 @@ const mapStateToProps = state => {
   return {
     ship: state.ship,
     // asteroid: state.asteroid,
-    // laser: state.laser,
+    laser: state.laser,
     // particle: state.particle
   }
 }
@@ -131,7 +138,7 @@ const mapDispatchToProps = dispatch => {
     rotateLeft: () => dispatch(rotateLeft()),
     rotateRight: () => dispatch(rotateRight()),
     forward: () => dispatch(forward()),
-    fire: () => dispatch(fire()),
+    fire: laserOrigin => dispatch(fire(laserOrigin)),
     stop: () => dispatch(stop()),
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),
