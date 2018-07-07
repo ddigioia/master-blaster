@@ -16,26 +16,37 @@ const resetLaser = {
   speed: undefined
 }
 
-function initLaser (laserOrigin) {
+function initLaser () {
+  return {
+    beams: []
+  }
+}
+
+function initLaserBeam (laserOrigin) {
   const {rotation, position: {x, y}, radius} = laserOrigin
   return {
     rotation,
     position: {x, y},
-    // radius: constants.LASER_BOLT_RADIUS,
+    // radius: constants.LASER_BEAM_RADIUS,
     radius,
-    speed: constants.LASER_BOLT_SPEED
+    speed: constants.LASER_BEAM_SPEED
   }
 }
 
 export default function laser(state, action) {
-
   if (typeof state === 'undefined') {
-    state = updateObj(state, resetLaser)
+    state = updateObj(state, initLaser())
   }
+
+  let beams
 
   switch(action.type){
     case constants.FIRE:
-      return updateObj(state, initLaser(action.laserOrigin))
+      let newBeam = initLaserBeam(action.laserOrigin)
+      beams = [...state.beams] // copy beams from state
+      beams.push(newBeam)
+
+      return updateObj(state, {beams})
     default:
       return state
   }

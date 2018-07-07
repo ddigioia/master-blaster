@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Stage, Layer, Rect } from 'react-konva'
+import uuid from 'uuid/v4'
 import '../styles/Board.css'
 import Ship from '../components/Ship'
 // import Asteroid from '../components/Asteroid'
@@ -71,6 +72,19 @@ class Board extends Component {
     return window.localStorage.getItem('masterBlasterTopScore') || 0
   }
 
+  mapLaserBeams(laser) {
+    return laser.beams.map(beam => {
+      return (
+        <Laser
+          rotation={beam.rotation}
+          position={beam.position}
+          radius={beam.radius}
+          key={uuid()}
+        />
+      )
+    })
+  }
+
   render() {
 
     let {
@@ -111,11 +125,7 @@ class Board extends Component {
               rotation={ship.rotation}
               radius={ship.radius}
             />
-            <Laser
-              rotation={laser.rotation}
-              position={laser.position}
-              radius={laser.radius}
-            />
+            { this.mapLaserBeams(laser) }
           </Layer>
         </Stage>
       </div>

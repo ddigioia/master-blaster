@@ -90,14 +90,14 @@ export function asteroidHitTest() {
         },
         speed
       }
-      for (let j = 0, m = laser.bolts.length; j < m; j++) {
+      for (let j = 0, m = laser.beams.length; j < m; j++) {
         let {
           radius,
           pos: {
             x,
             y
           }
-        } = laser.bolts[j]
+        } = laser.beams[j]
         let b = {
           radius,
           pos: {
