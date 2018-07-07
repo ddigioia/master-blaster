@@ -33,6 +33,24 @@ function initLaserBeam (laserOrigin) {
   }
 }
 
+function checkIfBeamIsOutOfPlay (beam) {
+  return  (
+    beam.position.x >= 0 &&
+    beam.position.x <= (screen.width()) &&
+    beam.position.y >= 0 &&
+    beam.position.y <= screen.height()
+  )
+}
+
+function updateBeamPosition (beam) {
+  return updateObj(beam, {
+    position: {
+      x: beam.position.x + calcXDist(beam.rotation, constants.LASER_BEAM_SPEED),
+      y: beam.position.y + calcYDist(beam.rotation, constants.LASER_BEAM_SPEED)
+    }
+  })
+}
+
 export default function laser(state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, initLaser())
@@ -45,6 +63,14 @@ export default function laser(state, action) {
       let newBeam = initLaserBeam(action.laserOrigin)
       beams = [...state.beams] // copy beams from state
       beams.push(newBeam)
+
+      return updateObj(state, {beams})
+    case constants.UPDATE:
+      beams = (
+        state.beams
+          .map(updateBeamPosition)
+          .filter(checkIfBeamIsOutOfPlay) // delete beams that are out of play
+      )
 
       return updateObj(state, {beams})
     default:
