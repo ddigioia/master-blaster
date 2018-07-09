@@ -8,6 +8,15 @@ export function hitTest(obj1, obj2) {
   return false
 }
 
+export function checkIfElementIsInPlay(el) {
+  return  (
+    el.position.x >= 0 &&
+    el.position.x <= window.innerWidth &&
+    el.position.y >= 0 &&
+    el.position.y <= window.innerHeight
+  )
+}
+
 export function randomNumInRange(min, max) {
   return Math.random() * (max - min) + min
 }

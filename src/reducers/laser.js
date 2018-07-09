@@ -3,7 +3,8 @@ import {
   screen,
   calcXDist,
   calcYDist,
-  updateObj
+  updateObj,
+  checkIfElementIsInPlay
 } from '../helpers'
 
 const resetLaser = {
@@ -33,15 +34,6 @@ function initLaserBeam (laserOrigin) {
   }
 }
 
-function checkIfBeamIsOutOfPlay (beam) {
-  return  (
-    beam.position.x >= 0 &&
-    beam.position.x <= (screen.width()) &&
-    beam.position.y >= 0 &&
-    beam.position.y <= screen.height()
-  )
-}
-
 function updateBeamPosition (beam) {
   return updateObj(beam, {
     position: {
@@ -69,7 +61,7 @@ export default function laser(state, action) {
       beams = (
         state.beams
           .map(updateBeamPosition)
-          .filter(checkIfBeamIsOutOfPlay) // delete beams that are out of play
+          .filter(checkIfElementIsInPlay) // delete beams that are out of play
       )
 
       return updateObj(state, {beams})

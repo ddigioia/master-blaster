@@ -4,7 +4,7 @@ import { Stage, Layer, Rect } from 'react-konva'
 import uuid from 'uuid/v4'
 import '../styles/Board.css'
 import Ship from '../components/Ship'
-// import Asteroid from '../components/Asteroid'
+import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
 // import Particle from '../components/Particle'
 import { screen } from '../helpers'
@@ -108,11 +108,25 @@ class Board extends Component {
     })
   }
 
+  mapAsteroids(asteroid) {
+    return asteroid.asteroids.map(asteroid => {
+      return (
+        <Asteroid
+          rotation={asteroid.rotation}
+          position={asteroid.position}
+          radius={asteroid.radius}
+          vertices={asteroid.vertices}
+          key={uuid()}
+        />
+      )
+    })
+  }
+
   render() {
 
     let {
       ship,
-      // asteroid,
+      asteroid,
       laser,
       // particle
     } = this.props
@@ -156,6 +170,7 @@ class Board extends Component {
               radius={ship.radius}
             />
             { this.mapLaserBeams(laser) }
+            { this.mapAsteroids(asteroid) }
           </Layer>
         </Stage>
       </div>
@@ -166,7 +181,7 @@ class Board extends Component {
 const mapStateToProps = state => {
   return {
     ship: state.ship,
-    // asteroid: state.asteroid,
+    asteroid: state.asteroid,
     laser: state.laser,
     // particle: state.particle
   }
