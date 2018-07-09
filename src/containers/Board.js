@@ -10,8 +10,10 @@ import Laser from '../components/Laser'
 import { screen } from '../helpers'
 import * as constants from '../constants'
 import {
+  start,
   rotateLeft,
   rotateRight,
+  stopRotation,
   forward,
   fire,
   stop,
@@ -25,10 +27,14 @@ class Board extends Component {
     super()
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleKeyUp = this.handleKeyUp.bind(this)
+    this.handleStart = this.handleStart.bind(this)
+    this.board = React.createRef()
+    this.startBtn = React.createRef()
+    this.controls = React.createRef()
   }
 
-  handleKeyDown(event) {
-    switch(event.keyCode) {
+  handleKeyDown({keyCode}) {
+    switch(keyCode) {
       case constants.LEFT:
         this.props.rotateLeft()
         break
@@ -46,22 +52,39 @@ class Board extends Component {
       default:
         break
     }
-    this.updateGame()
+  }
+
+  handleKeyUp({keyCode}) {
+    switch(keyCode) {
+      case constants.LEFT:
+      case constants.RIGHT:
+        this.props.stopRotation()
+        break
+      case constants.UP:
+        this.props.stop()
+    }
   }
 
   updateGame() {
     // this.props.asteroidHitTest()
     // this.props.shipHitTest()
     this.props.update()
-    // requestAnimationFrame(this.updateGame.bind(this))
+    window.requestAnimationFrame(this.updateGame.bind(this))
   }
 
-  handleKeyUp() {
-    // this.updateGame()
+  handleStart() {
+    const startBtn = this.startBtn.current
+    const board = this.board.current
+    const controls = this.controls.current
+    startBtn.style.display = 'none'
+    controls.style.display = 'none'
+    board.focus()
+    this.props.start()
+    this.updateGame()
   }
 
   componentDidMount() {
-    this.updateGame()
+    // this.updateGame()
   }
 
   getCurrentScore() {
@@ -96,21 +119,28 @@ class Board extends Component {
 
     return (
       <div className="Board"
+        ref={this.board}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
         tabIndex="0"
       >
-        <div className="score-con">
-          <span className="score current-score">Score: {this.getCurrentScore()}</span>
-          <span className="score top-score">Top Score: {this.getTopScore()}</span>
+        <div className="board-header">
+          <div className="score-con">
+            <span className="score current-score">Score: {this.getCurrentScore()}</span>
+            <span className="score top-score">Top Score: {this.getTopScore()}</span>
+          </div>
+          <span className="controls" ref={this.controls}>
+            Use [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br/>
+            Use [ SPACE ] to SHOOT
+          </span>
         </div>
-        <p className="intro">
-          To get started, press any key.
-        </p>
-        <span className="controls" >
-          Use [ A ][ S ][ W ][ D ] or [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br/>
-          Use [ SPACE ] to SHOOT
-        </span>
+        <button
+          ref={this.startBtn}
+          className="btn start-btn"
+          onClick={this.handleStart}
+        >
+          Start
+        </button>
         <Stage
           width={screen.width()}
           height={screen.height()}
@@ -134,7 +164,6 @@ class Board extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('state: ', state)
   return {
     ship: state.ship,
     // asteroid: state.asteroid,
@@ -145,8 +174,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    start: () => dispatch(start()),
     rotateLeft: () => dispatch(rotateLeft()),
     rotateRight: () => dispatch(rotateRight()),
+    stopRotation: () => dispatch(stopRotation()),
     forward: () => dispatch(forward()),
     fire: laserOrigin => dispatch(fire(laserOrigin)),
     stop: () => dispatch(stop()),

@@ -14,17 +14,6 @@
   font-size: 1em;
 }
 
-.App-header {
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid white;
-}
-
-.App-title {
-  font-size: 1em;
-  font-weight: 100;
-}
-
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

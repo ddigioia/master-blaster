@@ -28,7 +28,8 @@ function initShip() {
     },
     radius: screen.width() / constants.SHIP_SCALE,
     rotationSpeed: 0,
-    speed: 0
+    speed: 0,
+    inertia: constants.SHIP_INERTIA
   }
 }
 
