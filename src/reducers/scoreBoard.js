@@ -12,7 +12,11 @@ function initScoreBoard () {
 }
 
 function getTopScore() {
-  return window.localStorage.getItem('masterBlasterTopScore') || 0
+  return Number(window.localStorage.getItem('masterBlasterTopScore'))
+}
+
+function setTopScore(topScore) {
+  return window.localStorage.setItem('masterBlasterTopScore', topScore)
 }
 
 export default function scoreBoard (state, action) {
@@ -23,12 +27,17 @@ export default function scoreBoard (state, action) {
 
   switch(action.type) {
     case constants.ASTEROID_HIT:
-      let currentScore = state.currentScore
+      let {currentScore, topScore} = state
       currentScore++
+      if (currentScore > topScore) topScore++
 
-      return updateObj(state, {currentScore})
+      return updateObj(state, {currentScore, topScore})
     case constants.GAME_OVER:
-      return updateObj(state, {})
+      if (state.topScore > getTopScore()) {
+        setTopScore(state.topScore)
+      }
+
+      return updateObj(state, {currentScore, topScore})
     default:
       return state
   }
