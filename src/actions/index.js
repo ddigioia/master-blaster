@@ -1,5 +1,5 @@
 import * as constants from '../constants'
-import { hitTest } from '../helpers'
+import { hitTest, updateObj } from '../helpers'
 
 export function start() {
   return {
@@ -50,11 +50,11 @@ export function fire(laserOrigin) {
   }
 }
 
-export function asteroidHit(asteroid, laserBolt) {
+export function asteroidHit(asteroid, laserBeam) {
   return {
     type: constants.ASTEROID_HIT,
     asteroid: asteroid,
-    laserBolt: laserBolt
+    laserBeam: laserBeam
   }
 }
 
@@ -75,71 +75,49 @@ export function createAsteroids(asteroidCount) {
 export function asteroidHitTest() {
   return (dispatch, getState) => {
 
-    var {
-      asteroidField,
+    let {
+      asteroid,
       laser
     } = getState()
 
-    for (let i = 0, l = asteroidField.asteroids.length; i < l; i++) {
+    for (let i = 0; i < asteroid.asteroids.length; i++) {
       let {
         radius,
-        pos: {
+        position: {
           x,
           y
         },
         speed
-      } = asteroidField.asteroids[i]
+      } = asteroid.asteroids[i]
       let a = {
         radius,
-        pos: {
+        position: {
           x,
           y
         },
         speed
       }
-      for (let j = 0, m = laser.beams.length; j < m; j++) {
+      for (let j = 0; j < laser.beams.length; j++) {
         let {
           radius,
-          pos: {
+          position: {
             x,
             y
           }
         } = laser.beams[j]
         let b = {
           radius,
-          pos: {
+          position: {
             x,
             y
           }
         }
+        let isHit = hitTest(a, b)
+        let hitAsteroid = updateObj(a, {index: i})
+        let hitLaserBeam = updateObj(b, {index: j})
 
-        if (hitTest({
-            pos: {
-              x: a.pos.x,
-              y: a.pos.y
-            },
-            radius: a.radius
-          }, {
-            pos: {
-              x: b.pos.x,
-              y: b.pos.y
-            },
-            radius: b.radius
-          })) {
-          dispatch(asteroidHit({
-            index: i,
-            speed: a.speed,
-            pos: {
-              x: a.pos.x,
-              y: a.pos.y
-            }
-          }, {
-            index: j,
-            pos: {
-              x: b.pos.x,
-              y: b.pos.y
-            }
-          }))
+        if (isHit) {
+          dispatch(asteroidHit(hitAsteroid, hitLaserBeam))
         }
       }
     }
@@ -148,13 +126,13 @@ export function asteroidHitTest() {
 
 export function shipHitTest() {
   return (dispatch, getState) => {
-    var {
+    let {
       ship,
-      asteroidField
+      asteroid
     } = getState()
-    var {
+    let {
       radius,
-      pos: {
+      position: {
         x,
         y
       },
@@ -162,24 +140,18 @@ export function shipHitTest() {
     } = ship
     let s = {
       radius,
-      pos: {
+      position: {
         x,
         y
       },
       speed
     }
-    for (let i = 0, l = asteroidField.asteroids.length; i < l; i++) {
-      if (hitTest(
-          asteroidField.asteroids[i],
-          ship
-        )) {
-        dispatch(gameOver({
-          speed: s.speed,
-          pos: {
-            x: s.pos.x,
-            y: s.pos.y
-          }
-        }))
+    for (let i = 0; i < asteroid.asteroids.length; i++) {
+      let isHit = hitTest(asteroid.asteroids[i], ship)
+
+      if (isHit) {
+        dispatch(gameOver(s))
+        break
       }
     }
   }

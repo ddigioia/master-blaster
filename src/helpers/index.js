@@ -1,6 +1,6 @@
 export function hitTest(obj1, obj2) {
-  var xDist = obj1.pos.x - obj2.pos.x
-  var yDist = obj1.pos.y - obj2.pos.y
+  var xDist = obj1.position.x - obj2.position.x
+  var yDist = obj1.position.y - obj2.position.y
   var dist = Math.sqrt(xDist * xDist + yDist * yDist)
   if (dist < obj1.radius + obj2.radius) {
     return true

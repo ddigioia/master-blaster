@@ -67,7 +67,7 @@ class Board extends Component {
   }
 
   updateGame() {
-    // this.props.asteroidHitTest()
+    this.props.asteroidHitTest()
     // this.props.shipHitTest()
     this.props.update()
     window.requestAnimationFrame(this.updateGame.bind(this))
