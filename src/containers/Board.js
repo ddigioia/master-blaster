@@ -7,6 +7,7 @@ import Ship from '../components/Ship'
 import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
 import Debris from '../components/Debris'
+import ScoreBoard from '../components/ScoreBoard'
 import { screen, randomNumInRange } from '../helpers'
 import * as constants from '../constants'
 import {
@@ -98,14 +99,6 @@ class Board extends Component {
 
   }
 
-  getCurrentScore() {
-    return 0
-  }
-
-  getTopScore() {
-    return window.localStorage.getItem('masterBlasterTopScore') || 0
-  }
-
   mapLaserBeams(laser) {
     return laser.beams.map(beam => {
       return (
@@ -153,7 +146,8 @@ class Board extends Component {
       ship,
       asteroid,
       laser,
-      debris
+      debris,
+      scoreBoard
     } = this.props
 
     return (
@@ -164,10 +158,10 @@ class Board extends Component {
         tabIndex="0"
       >
         <div className="board-header">
-          <div className="score-con">
-            <span className="score current-score">Score: {this.getCurrentScore()}</span>
-            <span className="score top-score">Top Score: {this.getTopScore()}</span>
-          </div>
+          <ScoreBoard
+            currentScore={scoreBoard.currentScore}
+            topScore={scoreBoard.topScore}
+          />
           <span className="controls" ref={this.controls}>
             Use [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br/>
             Use [ SPACE ] to SHOOT
@@ -209,7 +203,8 @@ const mapStateToProps = state => {
     ship: state.ship,
     asteroid: state.asteroid,
     laser: state.laser,
-    debris: state.debris
+    debris: state.debris,
+    scoreBoard: state.scoreBoard
   }
 }
 
