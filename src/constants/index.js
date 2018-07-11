@@ -20,6 +20,11 @@ export const LASER_STROKE_WIDTH = 3
 export const LASER_COLOR = '#ffffff'
 export const LASER_BEAM_RADIUS = 1
 
+// debris
+export const DEBRIS_STROKE_WIDTH = 2
+export const DEBRIS_COLOR = '#ffffff'
+export const DEBRIS_VERTICES_COUNT = 6
+
 // asteroid
 export const ASTEROID_START_MAX_ACCL = 1
 export const ASTEROID_START_MAX_ACCL_INCR = 0.5

@@ -3,9 +3,6 @@ import { Line } from 'react-konva'
 import * as constants from '../constants'
 
 class Asteroid extends Component {
-  constructor(props) {
-    super()
-  }
 
   render() {
     let {position, rotation, radius, vertices} = this.props

@@ -15,13 +15,17 @@ function initDebris () {
 }
 
 function createFragment (scale, speed, rotationSpeed, position) {
+  const radius = screen.width() / scale
+  const vertices = debrisVertices(constants.DEBRIS_VERTICES_COUNT)
+
   return {
     // direction: undefined,
-    rotation: 0,
+    rotation: Math.round(Math.random() * 360),
     position,
-    radius: screen.width() / scale,
+    radius,
     rotationSpeed,
-    speed
+    speed,
+    vertices
   }
 }
 
@@ -43,29 +47,60 @@ function createFragments (type, object) {
   return fragments
 }
 
+function debrisVertices(radius) {
+  let vertices = []
+  let count = constants.DEBRIS_VERTICES_COUNT
+  let xVertice
+  let yVertice
+
+  for (let i = 0; i < count; i++) {
+    xVertice = (-Math.sin((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
+    yVertice = (-Math.cos((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
+    vertices.push(xVertice, yVertice)
+  }
+
+  return vertices
+}
+
+function updateFragmentPosition(fragment) {
+  return updateObj(fragment, {
+    position: {
+      x: fragment.position.x + calcXDist(fragment.rotation, fragment.speed),
+      y: fragment.position.y + calcYDist(fragment.rotation, fragment.speed)
+    }
+  })
+}
+
 export default function debris(state, action) {
-  if (typeof state === undefined) {
+  if (typeof state === 'undefined') {
     state = updateObj(state, initDebris())
   }
 
   let fragments
+  let newFragments
 
   switch(action.type) {
     case constants.ASTEROID_HIT:
       let {asteroid} = action
-      let newFragments = createFragments('ASTEROID', asteroid)
+      newFragments = createFragments('ASTEROID', asteroid)
 
       fragments = [...state.fragments, ...newFragments]
       return updateObj(state, {fragments})
     case constants.GAME_OVER:
       let {ship} = action
-      let newFragments = createFragments('SHIP', ship)
+      newFragments = createFragments('SHIP', ship)
 
       fragments = [...state.fragments, ...newFragments]
       return updateObj(state, {fragments})
     case constants.UPDATE:
+      fragments = (
+        state.fragments
+          .map(updateFragmentPosition)
+          .filter(checkIfElementIsInPlay)
+      )
       // determine which fragments you should remove from the board
       // maybe include a timestamp on each fragment - delete after 2-3 secs
+      return updateObj(state, {fragments})
     default:
       return state
   }

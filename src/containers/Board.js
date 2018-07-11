@@ -133,6 +133,20 @@ class Board extends Component {
     })
   }
 
+  mapDebris(debris) {
+    return debris.fragments.map(fragment => {
+      return (
+        <Debris
+          rotation={fragment.rotation}
+          position={fragment.position}
+          radius={fragment.radius}
+          vertices={fragment.vertices}
+          key={uuid()}
+        />
+      )
+    })
+  }
+
   render() {
 
     let {
@@ -182,6 +196,7 @@ class Board extends Component {
             />
             { this.mapLaserBeams(laser) }
             { this.mapAsteroids(asteroid) }
+            { this.mapDebris(debris) }
           </Layer>
         </Stage>
       </div>
