@@ -1,8 +1,9 @@
 // game specific constants
-export const SHIP_ROTATION_SPEED = 15
-export const SHIP_ACCL = 7
+export const SHIP_ROTATION_SPEED = 5
+export const SHIP_ACCL = 5
 export const SHIP_INERTIA = 0.90
-export const SHIP_SCALE = 66
+export const SHIP_SCALE = 150
+export const SHIP_STROKE_WIDTH = 2
 export const SHIP_FRAGMENT_COUNT = 3
 export const SHIP_FRAGMENT_SCALE = 165
 export const SHIP_FRAGMENT_SPEED = 10
@@ -13,10 +14,10 @@ export const LASER_COLOR = '#ffffff'
 export const LASER_BEAM_RADIUS = 1
 export const ASTEROID_START_MAX_ACCL = 1
 export const ASTEROID_START_MAX_ACCL_INCR = 0.5
-export const ASTEROID_START_COUNT = 5
+export const ASTEROID_BATCH_COUNT = 5
 export const ASTEROID_START_SPEED = 1
 export const ASTEROID_ROTATION_SPEED = 5
-export const ASTEROID_SCALE = 13
+export const ASTEROID_SCALE = 30
 export const ASTEROID_COLOR = '#ffffff'
 export const ASTEROID_STROKE_WIDTH = 2
 export const ASTEROID_VERTICES_COUNT = 8
@@ -40,6 +41,7 @@ export const UPDATE = 'UPDATE'
 export const HIT_TEST = 'HIT_TEST'
 export const ASTEROID_HIT = 'ASTEROID_HIT'
 export const GAME_OVER = 'GAME_OVER'
+export const CREATE_ASTEROIDS = 'CREATE_ASTEROIDS'
 
 // game state constants
 export const PLAYING = 'PLAYING'

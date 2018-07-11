@@ -65,6 +65,13 @@ export function gameOver(ship) {
   }
 }
 
+export function createAsteroids(asteroidCount) {
+  return {
+    type: constants.CREATE_ASTEROIDS,
+    asteroidCount: asteroidCount
+  }
+}
+
 export function asteroidHitTest() {
   return (dispatch, getState) => {
 

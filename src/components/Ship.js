@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Line } from 'react-konva'
+import * as constants from '../constants'
 
 class Ship extends Component {
 
@@ -18,7 +19,7 @@ class Ship extends Component {
             -radius, 0
           ]
         }
-        strokeWidth={1}
+        strokeWidth={constants.SHIP_STROKE_WIDTH}
         stroke="#ffffff"
         closed="true"
         rotation={rotation}

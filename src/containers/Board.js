@@ -7,7 +7,7 @@ import Ship from '../components/Ship'
 import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
 // import Particle from '../components/Particle'
-import { screen } from '../helpers'
+import { screen, randomNumInRange } from '../helpers'
 import * as constants from '../constants'
 import {
   start,
@@ -19,7 +19,8 @@ import {
   stop,
   update,
   asteroidHitTest,
-  shipHitTest
+  shipHitTest,
+  createAsteroids
 } from '../actions'
 
 class Board extends Component {
@@ -72,6 +73,14 @@ class Board extends Component {
     window.requestAnimationFrame(this.updateGame.bind(this))
   }
 
+  asteroidCreator() {
+    let count
+    window.setInterval(() => {
+      count = randomNumInRange(2, 8)
+      this.props.createAsteroids(count)
+    }, 5000)
+  }
+
   handleStart() {
     const startBtn = this.startBtn.current
     const board = this.board.current
@@ -81,6 +90,7 @@ class Board extends Component {
     board.focus()
     this.props.start()
     this.updateGame()
+    this.asteroidCreator()
   }
 
   componentDidMount() {
@@ -198,7 +208,8 @@ const mapDispatchToProps = dispatch => {
     stop: () => dispatch(stop()),
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),
-    shipHitTest: () => dispatch(shipHitTest())
+    shipHitTest: () => dispatch(shipHitTest()),
+    createAsteroids: asteroidCount => dispatch(createAsteroids(asteroidCount))
   }
 }
 

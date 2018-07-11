@@ -4,6 +4,7 @@ import {
   calcXDist,
   calcYDist,
   updateObj,
+  randomNumInRange,
   checkIfElementIsInPlay
 } from '../helpers'
 
@@ -14,10 +15,12 @@ function initAsteroid() {
 }
 
 function createAsteroid() {
+  const scale = randomNumInRange(10, 60)
   const xStart = Math.round(Math.random()) > 0
   const randXPosition = Math.random() * screen.width()
   const randYPosition = Math.random() * screen.height()
-  const radius = screen.width() / constants.ASTEROID_SCALE
+  // const radius = screen.width() / constants.ASTEROID_SCALE
+  const radius = screen.width() / scale
 
   return {
     position: {
@@ -25,17 +28,19 @@ function createAsteroid() {
       y: xStart ? randXPosition : 0
     },
     // maybe include x speed and y speed
-    speed: constants.ASTEROID_START_SPEED,
-    rotation: constants.ASTEROID_ROTATION_SPEED,
+    // speed: constants.ASTEROID_START_SPEED,
+    speed: randomNumInRange(1, 5),
+    // rotation: constants.ASTEROID_ROTATION_SPEED,
+    rotation: Math.round(Math.random() * 360),
     radius,
     vertices: asteroidVertices(radius)
   }
 }
 
-function createInitialAsteroids() {
+function createAsteroids(numOfAsteroids) {
   let asteroids = []
 
-  while(asteroids.length < constants.ASTEROID_START_COUNT) {
+  for(let i = 0; i < numOfAsteroids; i++) {
     asteroids.push(createAsteroid())
   }
 
@@ -48,7 +53,6 @@ function asteroidVertices(radius) {
   let xVertice
   let yVertice
 
-  // while (vertices.length < count) { // 2 points per vertice
   for (let i = 0; i < count; i++) {
     xVertice = (-Math.sin((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
     yVertice = (-Math.cos((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
@@ -74,10 +78,13 @@ export default function asteroid(state, action) {
   }
   
   let asteroids
+  let asteroidCount
 
   switch(action.type) {
     case constants.START:
-      asteroids = createInitialAsteroids()
+    case constants.CREATE_ASTEROIDS:
+      asteroidCount = action.asteroidCount || constants.ASTEROID_BATCH_COUNT
+      asteroids = [...state.asteroids, ...createAsteroids(asteroidCount)]
 
       return updateObj(state, {asteroids})
     case constants.UPDATE:
