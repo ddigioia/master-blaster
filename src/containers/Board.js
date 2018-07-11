@@ -6,7 +6,7 @@ import '../styles/Board.css'
 import Ship from '../components/Ship'
 import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
-// import Particle from '../components/Particle'
+import Debris from '../components/Debris'
 import { screen, randomNumInRange } from '../helpers'
 import * as constants from '../constants'
 import {
@@ -139,7 +139,7 @@ class Board extends Component {
       ship,
       asteroid,
       laser,
-      // particle
+      debris
     } = this.props
 
     return (
@@ -194,7 +194,7 @@ const mapStateToProps = state => {
     ship: state.ship,
     asteroid: state.asteroid,
     laser: state.laser,
-    // particle: state.particle
+    debris: state.debris
   }
 }
 
