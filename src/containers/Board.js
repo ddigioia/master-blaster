@@ -78,10 +78,11 @@ class Board extends Component {
     window.setInterval(() => {
       count = randomNumInRange(2, 8)
       this.props.createAsteroids(count)
-    }, 5000)
+    }, 2000)
   }
 
   handleStart() {
+    // TODO: Include difficulty options (asteroid speed and count will be multiplied by it) 
     const startBtn = this.startBtn.current
     const board = this.board.current
     const controls = this.controls.current
@@ -94,7 +95,7 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    // this.updateGame()
+
   }
 
   getCurrentScore() {

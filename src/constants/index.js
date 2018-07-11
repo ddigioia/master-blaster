@@ -1,4 +1,8 @@
-// game specific constants
+/**
+ * Game constants
+ */
+
+// ship
 export const SHIP_ROTATION_SPEED = 5
 export const SHIP_ACCL = 5
 export const SHIP_INERTIA = 0.90
@@ -8,10 +12,15 @@ export const SHIP_FRAGMENT_COUNT = 3
 export const SHIP_FRAGMENT_SCALE = 165
 export const SHIP_FRAGMENT_SPEED = 10
 export const SHIP_FRAGMENT_ROT_SPEED = 10
+export const SHIP_COLOR = '#ffffff'
+
+// laser
 export const LASER_BEAM_SPEED = 15
-export const LASER_STROKE_WIDTH = 2
+export const LASER_STROKE_WIDTH = 3
 export const LASER_COLOR = '#ffffff'
 export const LASER_BEAM_RADIUS = 1
+
+// asteroid
 export const ASTEROID_START_MAX_ACCL = 1
 export const ASTEROID_START_MAX_ACCL_INCR = 0.5
 export const ASTEROID_BATCH_COUNT = 5
@@ -25,11 +34,10 @@ export const ASTEROID_FRAGMENT_COUNT = 6
 export const ASTEROID_FRAGMENT_SCALE = 110
 export const ASTEROID_FRAGMENT_SPEED = 7
 export const ASTEROID_FRAGMENT_ROT_SPEED = 10
-export const CONSTELLATION_COUNT = 25
-export const CONSTELLATION_MIN_RADIUS = 0.5
-export const CONSTELLATION_MAX_RADIUS = 1.5
 
-// action constants
+/**
+ * Action constants
+ */
 export const START = 'START'
 export const ROTATE_RIGHT = 'ROTATE_RIGHT'
 export const ROTATE_LEFT = 'ROTATE_LEFT'
@@ -43,11 +51,15 @@ export const ASTEROID_HIT = 'ASTEROID_HIT'
 export const GAME_OVER = 'GAME_OVER'
 export const CREATE_ASTEROIDS = 'CREATE_ASTEROIDS'
 
-// game state constants
+/**
+ * Game state constants
+ */
 export const PLAYING = 'PLAYING'
 export const STOPPED = 'STOPPED'
 
-// keycode constants
+/**
+ * Key code constants
+ */
 export const LEFT = 37
 export const UP = 38
 export const RIGHT = 39

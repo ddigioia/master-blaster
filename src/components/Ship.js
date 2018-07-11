@@ -14,13 +14,17 @@ class Ship extends Component {
         points={
           [
             -(radius * 2), -radius,
-            radius * 2, 0,
+            (radius * 2), -radius, // wing
+            radius / 2, (-radius / 2),
+            radius * 1, 0, // nose of ship
+            radius / 2, (radius / 2),
+            (radius * 2), radius, // wing
             -(radius * 2), radius,
             -radius, 0
           ]
         }
         strokeWidth={constants.SHIP_STROKE_WIDTH}
-        stroke="#ffffff"
+        stroke={constants.SHIP_COLOR}
         closed="true"
         rotation={rotation}
       />
