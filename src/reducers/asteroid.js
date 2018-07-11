@@ -101,12 +101,6 @@ export default function asteroid(state, action) {
 
       asteroids.splice(asteroid.index, 1)
 
-      console.log('STATE: ', state)
-      console.log('ASTEROID: ', asteroid)
-      console.log('LASERBEAM: ', laserBeam)
-      // take the index from the asteroid and delete it from the state.asteroids
-      // take the index from the laser beam in the laser reducer and do the same
-
       return updateObj(state, {asteroids})
 
     default:

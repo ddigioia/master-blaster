@@ -65,6 +65,13 @@ export default function laser(state, action) {
       )
 
       return updateObj(state, {beams})
+    case constants.ASTEROID_HIT:
+      let { laserBeam } = action
+      beams = [...state.beams]
+
+      beams.splice(laserBeam.index, 1)
+
+      return updateObj(state, {beams})
     default:
       return state
   }

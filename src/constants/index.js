@@ -9,6 +9,7 @@ export const SHIP_INERTIA = 0.90
 export const SHIP_SCALE = 150
 export const SHIP_STROKE_WIDTH = 2
 export const SHIP_DEBRIS_COUNT = 3
+export const SHIP_DEBRIS_VERTICES_COUNT = 3
 export const SHIP_DEBRIS_SCALE = 165
 export const SHIP_DEBRIS_SPEED = 10
 export const SHIP_DEBRIS_ROTATION_SPEED = 10
@@ -23,7 +24,6 @@ export const LASER_BEAM_RADIUS = 1
 // debris
 export const DEBRIS_STROKE_WIDTH = 2
 export const DEBRIS_COLOR = '#ffffff'
-export const DEBRIS_VERTICES_COUNT = 6
 
 // asteroid
 export const ASTEROID_START_MAX_ACCL = 1
@@ -39,6 +39,7 @@ export const ASTEROID_DEBRIS_COUNT = 6
 export const ASTEROID_DEBRIS_SCALE = 110
 export const ASTEROID_DEBRIS_SPEED = 7
 export const ASTEROID_DEBRIS_ROTATION_SPEED = 10
+export const ASTEROID_DEBRIS_VERTICES_COUNT = 6
 
 /**
  * Action constants

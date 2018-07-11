@@ -14,9 +14,9 @@ function initDebris () {
   }
 }
 
-function createFragment (scale, speed, rotationSpeed, position) {
+function createFragment (scale, speed, rotationSpeed, verticesCount, position) {
   const radius = screen.width() / scale
-  const vertices = debrisVertices(constants.DEBRIS_VERTICES_COUNT)
+  const vertices = debrisVertices(radius, verticesCount)
 
   return {
     // direction: undefined,
@@ -39,6 +39,7 @@ function createFragments (type, object) {
       constants[`${type}_DEBRIS_SCALE`],
       constants[`${type}_DEBRIS_SPEED`],
       constants[`${type}_DEBRIS_ROTATION_SPEED`],
+      constants[`${type}_DEBRIS_VERTICES_COUNT`],
       position
     )
     fragments.push(fragment)
@@ -47,9 +48,8 @@ function createFragments (type, object) {
   return fragments
 }
 
-function debrisVertices(radius) {
+function debrisVertices(radius, count) {
   let vertices = []
-  let count = constants.DEBRIS_VERTICES_COUNT
   let xVertice
   let yVertice
 
