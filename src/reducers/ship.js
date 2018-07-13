@@ -8,15 +8,15 @@ import {
 
 function resetShip() {
   return {
-    direction: 0,
-    rotation: 0,
+    direction: undefined,
+    rotation: undefined,
     position: {
-      x: 0,
-      y: 0
+      x: undefined,
+      y: undefined
     },
-    radius: 0,
-    rotationSpeed: 0,
-    speed: 0
+    radius: undefined,
+    rotationSpeed: undefined,
+    speed: undefined
   }
 }
 

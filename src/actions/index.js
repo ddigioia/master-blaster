@@ -65,6 +65,12 @@ export function gameOver(ship) {
   }
 }
 
+export function pause() {
+  return {
+    type: constants.PAUSE
+  }
+}
+
 export function createAsteroids(asteroidCount) {
   return {
     type: constants.CREATE_ASTEROIDS,

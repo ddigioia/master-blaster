@@ -84,11 +84,7 @@ class Board extends Component {
 
   handleStart() {
     // TODO: Include difficulty options (asteroid speed and count will be multiplied by it) 
-    const startBtn = this.startBtn.current
     const board = this.board.current
-    const controls = this.controls.current
-    startBtn.style.display = 'none'
-    controls.style.display = 'none'
     board.focus()
     this.props.start()
     this.updateGame()
@@ -147,7 +143,8 @@ class Board extends Component {
       asteroid,
       laser,
       debris,
-      scoreBoard
+      scoreBoard,
+      board
     } = this.props
 
     return (
@@ -162,14 +159,24 @@ class Board extends Component {
             currentScore={scoreBoard.currentScore}
             topScore={scoreBoard.topScore}
           />
-          <span className="controls" ref={this.controls}>
+          <span 
+            className="controls"
+            style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none' }}
+          >
             Use [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br/>
             Use [ SPACE ] to SHOOT
           </span>
         </div>
+        <div 
+          className="game-over-con"
+          style={{display: board.gameState === 'gameOver' ? 'block' : 'none' }}
+        >
+        GAME OVER
+        </div>
         <button
           ref={this.startBtn}
           className="btn start-btn"
+          style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none' }}
           onClick={this.handleStart}
         >
           Start
@@ -204,7 +211,8 @@ const mapStateToProps = state => {
     asteroid: state.asteroid,
     laser: state.laser,
     debris: state.debris,
-    scoreBoard: state.scoreBoard
+    scoreBoard: state.scoreBoard,
+    board: state.board
   }
 }
 

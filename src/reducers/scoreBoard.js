@@ -25,9 +25,10 @@ export default function scoreBoard (state, action) {
     state = updateObj(state, initScoreBoard())
   }
 
+  let {currentScore, topScore} = state
+
   switch(action.type) {
     case constants.ASTEROID_HIT:
-      let {currentScore, topScore} = state
       currentScore++
       if (currentScore > topScore) topScore++
 
