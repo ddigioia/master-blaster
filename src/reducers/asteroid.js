@@ -17,18 +17,18 @@ function initAsteroid() {
 function createAsteroid() {
   const scale = randomNumInRange(10, 60)
   const xStart = Math.round(Math.random()) > 0
+  const startTop = Math.round(Math.random()) > 0
+  const startLeft = Math.round(Math.random()) > 0
   const randXPosition = Math.random() * screen.width()
   const randYPosition = Math.random() * screen.height()
-  // const radius = screen.width() / constants.ASTEROID_SCALE
   const radius = screen.width() / scale
 
   return {
     position: {
-      x: xStart ? 0 : randXPosition,
-      y: xStart ? randXPosition : 0
+      x: xStart ? (startLeft || screen.width()) : randXPosition,
+      y: xStart ? randYPosition : (startTop || screen.height())
     },
     // maybe include x speed and y speed
-    // speed: constants.ASTEROID_START_SPEED,
     speed: randomNumInRange(1, 5),
     // rotation: constants.ASTEROID_ROTATION_SPEED,
     rotation: Math.round(Math.random() * 360),
@@ -82,6 +82,9 @@ export default function asteroid(state, action) {
 
   switch(action.type) {
     case constants.START:
+      asteroids = createAsteroids(constants.ASTEROID_BATCH_COUNT)
+
+      return updateObj(state, {asteroids})
     case constants.CREATE_ASTEROIDS:
       asteroidCount = action.asteroidCount || constants.ASTEROID_BATCH_COUNT
       asteroids = [...state.asteroids, ...createAsteroids(asteroidCount)]

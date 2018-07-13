@@ -3,7 +3,8 @@ import { updateObj } from '../helpers'
 
 function initBoard() {
   return {
-    gameState: 'paused'
+    gameState: 'paused',
+    asteroidIntId: 0
   }
 }
 

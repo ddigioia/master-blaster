@@ -27,12 +27,11 @@ import {
 class Board extends Component {
   constructor(props) {
     super()
+    this.board = React.createRef()
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleStart = this.handleStart.bind(this)
-    this.board = React.createRef()
-    this.startBtn = React.createRef()
-    this.controls = React.createRef()
+    this.started = false
   }
 
   handleKeyDown({keyCode}) {
@@ -87,12 +86,15 @@ class Board extends Component {
     const board = this.board.current
     board.focus()
     this.props.start()
-    this.updateGame()
-    this.asteroidCreator()
+    if (this.started === false) {
+      this.updateGame()
+      this.asteroidCreator()
+    }
+    this.started = true
   }
 
   componentDidMount() {
-
+    console.log('COMPONENT MOUNTED')
   }
 
   mapLaserBeams(laser) {
@@ -174,7 +176,6 @@ class Board extends Component {
         GAME OVER
         </div>
         <button
-          ref={this.startBtn}
           className="btn start-btn"
           style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none' }}
           onClick={this.handleStart}
@@ -223,11 +224,11 @@ const mapDispatchToProps = dispatch => {
     rotateRight: () => dispatch(rotateRight()),
     stopRotation: () => dispatch(stopRotation()),
     forward: () => dispatch(forward()),
-    fire: laserOrigin => dispatch(fire(laserOrigin)),
     stop: () => dispatch(stop()),
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),
     shipHitTest: () => dispatch(shipHitTest()),
+    fire: laserOrigin => dispatch(fire(laserOrigin)),
     createAsteroids: asteroidCount => dispatch(createAsteroids(asteroidCount))
   }
 }
