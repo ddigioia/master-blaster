@@ -1,5 +1,56 @@
 .Board {
-  width: 980px;
-  height: 680px;
-  margin: 0 auto;
+  color: white;
+  font-size: 0.75em;
+  /* font-family: PT Mono,serif; */
 }
+
+.board-header {
+  position: absolute;
+  width: 100%;
+}
+
+.score-con {
+  height: 20px;
+  padding: 10px 10px 0;
+}
+
+.score-con .current-score {
+  float: left;
+}
+
+.score-con .top-score {
+  float: right;
+}
+
+.controls {
+  line-height: 24px;
+}
+
+.btn {
+  background: none;
+}
+
+.start-btn {
+  font-family: 'Press Start Regular';
+  border: 3px solid white;
+  color: white;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 35px;
+  margin-top: -17.5px;
+  margin-left: -45px;
+  z-index: 1;
+}
+
+.game-over-con {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  font-size: 26px;
+  margin-left: -108px;
+}
+

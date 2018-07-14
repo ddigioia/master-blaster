@@ -1,22 +1,17 @@
+@font-face {
+  font-family: 'Press Start Regular';
+  src: local('Press Start Regular'), url('./fonts/prstart.ttf') format('truetype');
+}
+
 .App {
   text-align: center;
   background: black;
   color: white;
-  padding: 20px;
-}
-
-.App-header {
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
+  font-family: PT Mono,serif;
+  font-family: 'Press Start Regular';
+  font-weight: 100;
+  letter-spacing: -2px;
+  font-size: 1em;
 }
 
 @keyframes App-logo-spin {
