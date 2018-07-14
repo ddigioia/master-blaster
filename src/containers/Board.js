@@ -32,6 +32,7 @@ class Board extends Component {
     this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleStart = this.handleStart.bind(this)
     this.started = false
+    this.asteroidIntervalId = 0
   }
 
   handleKeyDown({keyCode}) {
@@ -75,8 +76,12 @@ class Board extends Component {
 
   asteroidCreator() {
     let count
-    window.setInterval(() => {
-      count = randomNumInRange(2, 8)
+    let max = constants.ASTEROID_BATCH_COUNT
+    let min = constants.ASTEROID_BATCH_COUNT
+    let increment = constants.ASTEROID_BATCH_COUNT_INCREASE
+    this.asteroidIntervalId = window.setInterval(() => {
+      max *= increment
+      count = randomNumInRange(min, Math.floor(max))
       this.props.createAsteroids(count)
     }, 2000)
   }
@@ -84,17 +89,14 @@ class Board extends Component {
   handleStart() {
     // TODO: Include difficulty options (asteroid speed and count will be multiplied by it) 
     const board = this.board.current
+    window.clearInterval(this.asteroidIntervalId)
     board.focus()
     this.props.start()
     if (this.started === false) {
       this.updateGame()
-      this.asteroidCreator()
     }
+    this.asteroidCreator()
     this.started = true
-  }
-
-  componentDidMount() {
-    console.log('COMPONENT MOUNTED')
   }
 
   mapLaserBeams(laser) {

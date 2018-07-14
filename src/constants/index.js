@@ -26,10 +26,10 @@ export const DEBRIS_STROKE_WIDTH = 2
 export const DEBRIS_COLOR = '#ffffff'
 
 // asteroid
-export const ASTEROID_START_MAX_ACCL = 1
-export const ASTEROID_START_MAX_ACCL_INCR = 0.5
+export const ASTEROID_SPEED_INCREASE = 0.5
 export const ASTEROID_BATCH_COUNT = 5
-export const ASTEROID_START_SPEED = 1
+export const ASTEROID_BATCH_COUNT_INCREASE = 1.05
+export const ASTEROID_START_SPEED = 3
 export const ASTEROID_ROTATION_SPEED = 5
 export const ASTEROID_SCALE = 30
 export const ASTEROID_COLOR = '#ffffff'
