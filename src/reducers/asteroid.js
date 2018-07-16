@@ -8,13 +8,13 @@ import {
   checkIfElementIsInPlay
 } from '../helpers'
 
-function initAsteroid() {
+function initAsteroid () {
   return {
     asteroids: []
   }
 }
 
-function createAsteroid() {
+function createAsteroid () {
   const scale = randomNumInRange(10, 60)
   const xStart = Math.round(Math.random()) > 0
   const startTop = Math.round(Math.random()) > 0
@@ -37,32 +37,32 @@ function createAsteroid() {
   }
 }
 
-function createAsteroids(numOfAsteroids) {
+function createAsteroids (numOfAsteroids) {
   let asteroids = []
 
-  for(let i = 0; i < numOfAsteroids; i++) {
+  for (let i = 0; i < numOfAsteroids; i++) {
     asteroids.push(createAsteroid())
   }
 
   return asteroids
 }
 
-function asteroidVertices(radius) {
+function asteroidVertices (radius) {
   let vertices = []
   let count = constants.ASTEROID_VERTICES_COUNT
   let xVertice
   let yVertice
 
   for (let i = 0; i < count; i++) {
-    xVertice = (-Math.sin((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
-    yVertice = (-Math.cos((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
+    xVertice = (-Math.sin((360 / count) * i * Math.PI / 180) + Math.round(Math.random() * 2 - 1) * Math.random() / 3) * radius
+    yVertice = (-Math.cos((360 / count) * i * Math.PI / 180) + Math.round(Math.random() * 2 - 1) * Math.random() / 3) * radius
     vertices.push(xVertice, yVertice)
   }
 
   return vertices
 }
 
-function updateAsteroidPosition(asteroid) {
+function updateAsteroidPosition (asteroid) {
   return updateObj(asteroid, {
     position: {
       x: asteroid.position.x + calcXDist(asteroid.rotation, asteroid.speed),
@@ -71,16 +71,15 @@ function updateAsteroidPosition(asteroid) {
   })
 }
 
-export default function asteroid(state, action) {
-  
+export default function asteroid (state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, initAsteroid())
   }
-  
+
   let asteroids
   let asteroidCount
 
-  switch(action.type) {
+  switch (action.type) {
     case constants.START:
       asteroids = createAsteroids(constants.ASTEROID_BATCH_COUNT)
 
@@ -99,7 +98,7 @@ export default function asteroid(state, action) {
 
       return updateObj(state, {asteroids})
     case constants.ASTEROID_HIT:
-      let { asteroid, laserBeam } = action
+      let { asteroid } = action
       asteroids = [...state.asteroids]
 
       asteroids.splice(asteroid.index, 1)

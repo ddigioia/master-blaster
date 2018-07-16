@@ -4,7 +4,6 @@ import {
   calcXDist,
   calcYDist,
   updateObj,
-  randomNumInRange,
   checkIfElementIsInPlay
 } from '../helpers'
 
@@ -31,7 +30,7 @@ function createFragment (scale, speed, rotationSpeed, verticesCount, position) {
 
 function createFragments (type, object) {
   const fragments = []
-  const {radius, speed, position} = object
+  const {position} = object
   let fragment
 
   for (let i = 0; i < constants[`${type}_DEBRIS_COUNT`]; i++) {
@@ -48,21 +47,21 @@ function createFragments (type, object) {
   return fragments
 }
 
-function debrisVertices(radius, count) {
+function debrisVertices (radius, count) {
   let vertices = []
   let xVertice
   let yVertice
 
   for (let i = 0; i < count; i++) {
-    xVertice = (-Math.sin((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
-    yVertice = (-Math.cos((360/count)*i*Math.PI/180) + Math.round(Math.random()*2-1)*Math.random()/3) * radius
+    xVertice = (-Math.sin((360 / count) * i * Math.PI / 180) + Math.round(Math.random() * 2 - 1) * Math.random() / 3) * radius
+    yVertice = (-Math.cos((360 / count) * i * Math.PI / 180) + Math.round(Math.random() * 2 - 1) * Math.random() / 3) * radius
     vertices.push(xVertice, yVertice)
   }
 
   return vertices
 }
 
-function updateFragmentPosition(fragment) {
+function updateFragmentPosition (fragment) {
   return updateObj(fragment, {
     position: {
       x: fragment.position.x + calcXDist(fragment.rotation, fragment.speed),
@@ -71,7 +70,7 @@ function updateFragmentPosition(fragment) {
   })
 }
 
-export default function debris(state, action) {
+export default function debris (state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, initDebris())
   }
@@ -79,7 +78,7 @@ export default function debris(state, action) {
   let fragments
   let newFragments
 
-  switch(action.type) {
+  switch (action.type) {
     case constants.ASTEROID_HIT:
       let {asteroid} = action
       newFragments = createFragments('ASTEROID', asteroid)

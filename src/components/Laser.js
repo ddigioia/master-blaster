@@ -3,11 +3,10 @@ import { Line } from 'react-konva'
 import * as constants from '../constants'
 
 class Laser extends Component {
-
-  render() {
+  render () {
     let {position, rotation, radius} = this.props
 
-    return(
+    return (
       <Line
         x={position.x}
         y={position.y}
@@ -16,7 +15,7 @@ class Laser extends Component {
         }
         strokeWidth={constants.LASER_STROKE_WIDTH}
         stroke={constants.LASER_COLOR}
-        closed="true"
+        closed='true'
         rotation={rotation}
       />
     )

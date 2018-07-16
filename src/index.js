@@ -8,7 +8,7 @@ import appStore from './store/appStore'
 
 ReactDOM.render(
   <Provider store={appStore}>
-    <App/>
+    <App />
   </Provider>,
   document.getElementById('root')
 )

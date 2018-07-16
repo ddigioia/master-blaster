@@ -1,8 +1,5 @@
 import * as constants from '../constants'
-import {
-  screen,
-  updateObj
-} from '../helpers'
+import { updateObj } from '../helpers'
 
 function initScoreBoard () {
   return {
@@ -11,23 +8,22 @@ function initScoreBoard () {
   }
 }
 
-function getTopScore() {
+function getTopScore () {
   return Number(window.localStorage.getItem('masterBlasterTopScore'))
 }
 
-function setTopScore(topScore) {
+function setTopScore (topScore) {
   return window.localStorage.setItem('masterBlasterTopScore', topScore)
 }
 
 export default function scoreBoard (state, action) {
-
   if (typeof state === 'undefined') {
     state = updateObj(state, initScoreBoard())
   }
 
   let {currentScore, topScore} = state
 
-  switch(action.type) {
+  switch (action.type) {
     case constants.START:
       return updateObj(state, initScoreBoard())
     case constants.ASTEROID_HIT:

@@ -6,7 +6,7 @@ import {
   updateObj
 } from '../helpers'
 
-function resetShip() {
+function resetShip () {
   return {
     direction: undefined,
     rotation: undefined,
@@ -20,7 +20,7 @@ function resetShip() {
   }
 }
 
-function initShip() {
+function initShip () {
   return {
     direction: 0,
     rotation: 0,
@@ -35,8 +35,7 @@ function initShip() {
   }
 }
 
-export default function ship(state, action) {
-
+export default function ship (state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, resetShip())
   }
@@ -56,7 +55,7 @@ export default function ship(state, action) {
       })
     case constants.FORWARD:
       return updateObj(state, {
-        speed: state.speed = constants.SHIP_ACCL
+        speed: constants.SHIP_ACCL
       })
     case constants.STOP:
       return updateObj(state, {

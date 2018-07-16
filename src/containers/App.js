@@ -4,14 +4,13 @@ import '../styles/App.css'
 import Board from './Board'
 
 class App extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super()
   }
 
-  render() {
+  render () {
     return (
-      <div className="App">
+      <div className='App'>
         <Board />
       </div>
     )

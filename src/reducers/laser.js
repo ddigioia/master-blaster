@@ -1,21 +1,10 @@
 import * as constants from '../constants'
 import {
-  screen,
   calcXDist,
   calcYDist,
   updateObj,
   checkIfElementIsInPlay
 } from '../helpers'
-
-const resetLaser = {
-  rotation: undefined,
-  position: {
-    x: undefined,
-    y: undefined
-  },
-  radius: undefined,
-  speed: undefined
-}
 
 function initLaser () {
   return {
@@ -43,14 +32,14 @@ function updateBeamPosition (beam) {
   })
 }
 
-export default function laser(state, action) {
+export default function laser (state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, initLaser())
   }
 
   let beams
 
-  switch(action.type){
+  switch (action.type) {
     case constants.FIRE:
       let newBeam = initLaserBeam(action.laserOrigin)
       beams = [...state.beams] // copy beams from state

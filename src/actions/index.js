@@ -1,56 +1,56 @@
 import * as constants from '../constants'
 import { hitTest, updateObj } from '../helpers'
 
-export function start() {
+export function start () {
   return {
     type: constants.START
   }
 }
 
-export function rotateLeft() {
+export function rotateLeft () {
   return {
     type: constants.ROTATE_LEFT
   }
 }
 
-export function rotateRight() {
+export function rotateRight () {
   return {
     type: constants.ROTATE_RIGHT
   }
 }
 
-export function forward() {
+export function forward () {
   return {
     type: constants.FORWARD
   }
 }
 
-export function update() {
+export function update () {
   return {
     type: constants.UPDATE
   }
 }
 
-export function stop() {
+export function stop () {
   return {
     type: constants.STOP
   }
 }
 
-export function stopRotation() {
+export function stopRotation () {
   return {
     type: constants.STOP_ROTATION
   }
 }
 
-export function fire(laserOrigin) {
+export function fire (laserOrigin) {
   return {
     type: constants.FIRE,
     laserOrigin: laserOrigin
   }
 }
 
-export function asteroidHit(asteroid, laserBeam) {
+export function asteroidHit (asteroid, laserBeam) {
   return {
     type: constants.ASTEROID_HIT,
     asteroid: asteroid,
@@ -58,29 +58,28 @@ export function asteroidHit(asteroid, laserBeam) {
   }
 }
 
-export function gameOver(ship) {
+export function gameOver (ship) {
   return {
     type: constants.GAME_OVER,
     ship: ship
   }
 }
 
-export function pause() {
+export function pause () {
   return {
     type: constants.PAUSE
   }
 }
 
-export function createAsteroids(asteroidCount) {
+export function createAsteroids (asteroidCount) {
   return {
     type: constants.CREATE_ASTEROIDS,
     asteroidCount: asteroidCount
   }
 }
 
-export function asteroidHitTest() {
+export function asteroidHitTest () {
   return (dispatch, getState) => {
-
     let {
       asteroid,
       laser
@@ -130,7 +129,7 @@ export function asteroidHitTest() {
   }
 }
 
-export function shipHitTest() {
+export function shipHitTest () {
   return (dispatch, getState) => {
     let {
       ship,
