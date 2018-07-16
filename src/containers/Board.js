@@ -16,6 +16,7 @@ import {
   rotateRight,
   stopRotation,
   forward,
+  reverse,
   fire,
   stop,
   update,
@@ -46,6 +47,9 @@ class Board extends Component {
       case constants.UP:
         this.props.forward()
         break
+      case constants.DOWN:
+        this.props.reverse()
+        break
       case constants.SPACE:
         let {rotation, position: {x, y}, radius} = this.props.ship
         let laserOrigin = {rotation, position: {x, y}, radius}
@@ -63,6 +67,7 @@ class Board extends Component {
         this.props.stopRotation()
         break
       case constants.UP:
+      case constants.DOWN:
         this.props.stop()
         break
       default:
@@ -90,7 +95,6 @@ class Board extends Component {
   }
 
   handleStart () {
-    // TODO: Include difficulty options (asteroid speed and count will be multiplied by it)
     const board = this.board.current
     window.clearInterval(this.asteroidIntervalId)
     board.focus()
@@ -228,6 +232,7 @@ const mapDispatchToProps = dispatch => {
     rotateRight: () => dispatch(rotateRight()),
     stopRotation: () => dispatch(stopRotation()),
     forward: () => dispatch(forward()),
+    reverse: () => dispatch(reverse()),
     stop: () => dispatch(stop()),
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),

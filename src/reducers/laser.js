@@ -17,7 +17,6 @@ function initLaserBeam (laserOrigin) {
   return {
     rotation,
     position: {x, y},
-    // radius: constants.LASER_BEAM_RADIUS,
     radius,
     speed: constants.LASER_BEAM_SPEED
   }
@@ -42,7 +41,7 @@ export default function laser (state, action) {
   switch (action.type) {
     case constants.FIRE:
       let newBeam = initLaserBeam(action.laserOrigin)
-      beams = [...state.beams] // copy beams from state
+      beams = [...state.beams]
       beams.push(newBeam)
 
       return updateObj(state, {beams})
@@ -50,7 +49,7 @@ export default function laser (state, action) {
       beams = (
         state.beams
           .map(updateBeamPosition)
-          .filter(checkIfElementIsInPlay) // delete beams that are out of play
+          .filter(checkIfElementIsInPlay)
       )
 
       return updateObj(state, {beams})

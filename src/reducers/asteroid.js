@@ -28,9 +28,7 @@ function createAsteroid () {
       x: xStart ? (startLeft || screen.width()) : randXPosition,
       y: xStart ? randYPosition : (startTop || screen.height())
     },
-    // maybe include x speed and y speed
     speed: randomNumInRange(3, 10),
-    // rotation: constants.ASTEROID_ROTATION_SPEED,
     rotation: Math.round(Math.random() * 360),
     radius,
     vertices: asteroidVertices(radius)

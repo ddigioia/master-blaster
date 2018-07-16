@@ -4,15 +4,10 @@
 
 // ship
 export const SHIP_ROTATION_SPEED = 5
-export const SHIP_ACCL = 5
+export const SHIP_ACCELERATION = 5
 export const SHIP_INERTIA = 0.90
 export const SHIP_SCALE = 150
 export const SHIP_STROKE_WIDTH = 2
-export const SHIP_DEBRIS_COUNT = 3
-export const SHIP_DEBRIS_VERTICES_COUNT = 3
-export const SHIP_DEBRIS_SCALE = 165
-export const SHIP_DEBRIS_SPEED = 10
-export const SHIP_DEBRIS_ROTATION_SPEED = 10
 export const SHIP_COLOR = '#ffffff'
 
 // laser
@@ -26,18 +21,12 @@ export const DEBRIS_STROKE_WIDTH = 2
 export const DEBRIS_COLOR = '#ffffff'
 
 // asteroid
-export const ASTEROID_SPEED_INCREASE = 0.5
 export const ASTEROID_BATCH_COUNT = 5
 export const ASTEROID_BATCH_COUNT_INCREASE = 1.05
-export const ASTEROID_START_SPEED = 3
-export const ASTEROID_ROTATION_SPEED = 5
 export const ASTEROID_SCALE = 30
 export const ASTEROID_COLOR = '#ffffff'
 export const ASTEROID_STROKE_WIDTH = 2
 export const ASTEROID_VERTICES_COUNT = 8
-export const ASTEROID_DEBRIS_COUNT = 6
-export const ASTEROID_DEBRIS_SCALE = 110
-export const ASTEROID_DEBRIS_SPEED = 7
 export const ASTEROID_DEBRIS_ROTATION_SPEED = 10
 export const ASTEROID_DEBRIS_VERTICES_COUNT = 6
 
@@ -48,6 +37,7 @@ export const START = 'START'
 export const ROTATE_RIGHT = 'ROTATE_RIGHT'
 export const ROTATE_LEFT = 'ROTATE_LEFT'
 export const FORWARD = 'FORWARD'
+export const REVERSE = 'REVERSE'
 export const STOP = 'STOP'
 export const STOP_ROTATION = 'STOP_ROTATION'
 export const FIRE = 'FIRE'

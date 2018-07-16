@@ -18,7 +18,6 @@ function createFragment (scale, speed, rotationSpeed, verticesCount, position) {
   const vertices = debrisVertices(radius, verticesCount)
 
   return {
-    // direction: undefined,
     rotation: Math.round(Math.random() * 360),
     position,
     radius,
@@ -97,8 +96,6 @@ export default function debris (state, action) {
           .map(updateFragmentPosition)
           .filter(checkIfElementIsInPlay)
       )
-      // determine which fragments you should remove from the board
-      // maybe include a timestamp on each fragment - delete after 2-3 secs
       return updateObj(state, {fragments})
     default:
       return state

@@ -25,6 +25,12 @@ export function forward () {
   }
 }
 
+export function reverse () {
+  return {
+    type: constants.REVERSE
+  }
+}
+
 export function update () {
   return {
     type: constants.UPDATE
