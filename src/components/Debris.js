@@ -3,9 +3,8 @@ import { Line } from 'react-konva'
 import * as constants from '../constants'
 
 class Debris extends Component {
-
-  render() {
-    const {radius, position, rotation, vertices} = this.props
+  render () {
+    const {position, rotation, vertices} = this.props
 
     return (
       <Line
@@ -13,7 +12,7 @@ class Debris extends Component {
         y={position.y}
         points={vertices}
         strokeWidth={constants.DEBRIS_STROKE_WIDTH}
-        closed="true"
+        closed='true'
         stroke={constants.DEBRIS_COLOR}
         rotation={rotation}
       />

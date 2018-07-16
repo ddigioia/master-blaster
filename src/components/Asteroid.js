@@ -3,9 +3,8 @@ import { Line } from 'react-konva'
 import * as constants from '../constants'
 
 class Asteroid extends Component {
-
-  render() {
-    let {position, rotation, radius, vertices} = this.props
+  render () {
+    let {position, rotation, vertices} = this.props
 
     return (
       <Line
@@ -14,7 +13,7 @@ class Asteroid extends Component {
         points={vertices}
         strokeWidth={constants.ASTEROID_STROKE_WIDTH}
         stroke={constants.ASTEROID_COLOR}
-        closed="true"
+        closed='true'
         rotation={rotation}
         // rotate={150}
       />

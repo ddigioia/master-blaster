@@ -16,6 +16,7 @@ import {
   rotateRight,
   stopRotation,
   forward,
+  reverse,
   fire,
   stop,
   update,
@@ -25,7 +26,7 @@ import {
 } from '../actions'
 
 class Board extends Component {
-  constructor(props) {
+  constructor (props) {
     super()
     this.board = React.createRef()
     this.handleKeyDown = this.handleKeyDown.bind(this)
@@ -35,8 +36,8 @@ class Board extends Component {
     this.asteroidIntervalId = 0
   }
 
-  handleKeyDown({keyCode}) {
-    switch(keyCode) {
+  handleKeyDown ({keyCode}) {
+    switch (keyCode) {
       case constants.LEFT:
         this.props.rotateLeft()
         break
@@ -45,6 +46,9 @@ class Board extends Component {
         break
       case constants.UP:
         this.props.forward()
+        break
+      case constants.DOWN:
+        this.props.reverse()
         break
       case constants.SPACE:
         let {rotation, position: {x, y}, radius} = this.props.ship
@@ -56,25 +60,29 @@ class Board extends Component {
     }
   }
 
-  handleKeyUp({keyCode}) {
-    switch(keyCode) {
+  handleKeyUp ({keyCode}) {
+    switch (keyCode) {
       case constants.LEFT:
       case constants.RIGHT:
         this.props.stopRotation()
         break
       case constants.UP:
+      case constants.DOWN:
         this.props.stop()
+        break
+      default:
+        break
     }
   }
 
-  updateGame() {
+  updateGame () {
     this.props.asteroidHitTest()
     this.props.shipHitTest()
     this.props.update()
     window.requestAnimationFrame(this.updateGame.bind(this))
   }
 
-  asteroidCreator() {
+  asteroidCreator () {
     let count
     let max = constants.ASTEROID_BATCH_COUNT
     let min = constants.ASTEROID_BATCH_COUNT
@@ -86,8 +94,7 @@ class Board extends Component {
     }, 2000)
   }
 
-  handleStart() {
-    // TODO: Include difficulty options (asteroid speed and count will be multiplied by it) 
+  handleStart () {
     const board = this.board.current
     window.clearInterval(this.asteroidIntervalId)
     board.focus()
@@ -99,7 +106,7 @@ class Board extends Component {
     this.started = true
   }
 
-  mapLaserBeams(laser) {
+  mapLaserBeams (laser) {
     return laser.beams.map(beam => {
       return (
         <Laser
@@ -112,7 +119,7 @@ class Board extends Component {
     })
   }
 
-  mapAsteroids(asteroid) {
+  mapAsteroids (asteroid) {
     return asteroid.asteroids.map(asteroid => {
       return (
         <Asteroid
@@ -126,7 +133,7 @@ class Board extends Component {
     })
   }
 
-  mapDebris(debris) {
+  mapDebris (debris) {
     return debris.fragments.map(fragment => {
       return (
         <Debris
@@ -140,8 +147,7 @@ class Board extends Component {
     })
   }
 
-  render() {
-
+  render () {
     let {
       ship,
       asteroid,
@@ -152,34 +158,34 @@ class Board extends Component {
     } = this.props
 
     return (
-      <div className="Board"
+      <div className='Board'
         ref={this.board}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
-        tabIndex="0"
+        tabIndex='0'
       >
-        <div className="board-header">
+        <div className='board-header'>
           <ScoreBoard
             currentScore={scoreBoard.currentScore}
             topScore={scoreBoard.topScore}
           />
-          <span 
-            className="controls"
-            style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none' }}
+          <span
+            className='controls'
+            style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none'}}
           >
-            Use [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br/>
+            Use [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br />
             Use [ SPACE ] to SHOOT
           </span>
         </div>
-        <div 
-          className="game-over-con"
-          style={{display: board.gameState === 'gameOver' ? 'block' : 'none' }}
+        <div
+          className='game-over-con'
+          style={{display: board.gameState === 'gameOver' ? 'block' : 'none'}}
         >
         GAME OVER
         </div>
         <button
-          className="btn start-btn"
-          style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none' }}
+          className='btn start-btn'
+          style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none'}}
           onClick={this.handleStart}
         >
           Start
@@ -226,6 +232,7 @@ const mapDispatchToProps = dispatch => {
     rotateRight: () => dispatch(rotateRight()),
     stopRotation: () => dispatch(stopRotation()),
     forward: () => dispatch(forward()),
+    reverse: () => dispatch(reverse()),
     stop: () => dispatch(stop()),
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),

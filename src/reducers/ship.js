@@ -6,7 +6,7 @@ import {
   updateObj
 } from '../helpers'
 
-function resetShip() {
+function resetShip () {
   return {
     direction: undefined,
     rotation: undefined,
@@ -20,7 +20,7 @@ function resetShip() {
   }
 }
 
-function initShip() {
+function initShip () {
   return {
     direction: 0,
     rotation: 0,
@@ -35,8 +35,7 @@ function initShip() {
   }
 }
 
-export default function ship(state, action) {
-
+export default function ship (state, action) {
   if (typeof state === 'undefined') {
     state = updateObj(state, resetShip())
   }
@@ -56,7 +55,11 @@ export default function ship(state, action) {
       })
     case constants.FORWARD:
       return updateObj(state, {
-        speed: state.speed = constants.SHIP_ACCL
+        speed: constants.SHIP_ACCELERATION
+      })
+    case constants.REVERSE:
+      return updateObj(state, {
+        speed: -constants.SHIP_ACCELERATION // figure out proper mechanics here
       })
     case constants.STOP:
       return updateObj(state, {
@@ -72,7 +75,6 @@ export default function ship(state, action) {
       rotation = (state.rotation + 360 + state.rotationSpeed) % 360
       return updateObj(state, {
         position: {
-          // the modulus operator keeps ship in play when it moves out of board area
           x: (state.position.x + calcXDist(state.direction, state.speed) +
             screen.width()) % screen.width(),
           y: (state.position.y + calcYDist(state.direction, state.speed) +

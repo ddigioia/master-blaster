@@ -5,9 +5,9 @@ class ScoreBoard extends Component {
     const { currentScore, topScore } = this.props
 
     return (
-      <div className="score-con">
-        <span className="score current-score">Score: {currentScore}</span>
-        <span className="score top-score">Top Score: {topScore}</span>
+      <div className='score-con'>
+        <span className='score current-score'>Score: {currentScore}</span>
+        <span className='score top-score'>Top Score: {topScore}</span>
       </div>
     )
   }
