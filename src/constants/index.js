@@ -9,6 +9,11 @@ export const SHIP_INERTIA = 0.90
 export const SHIP_SCALE = 150
 export const SHIP_STROKE_WIDTH = 2
 export const SHIP_COLOR = '#ffffff'
+export const SHIP_DEBRIS_COUNT = 3
+export const SHIP_DEBRIS_VERTICES_COUNT = 3
+export const SHIP_DEBRIS_SCALE = 165
+export const SHIP_DEBRIS_SPEED = 10
+export const SHIP_DEBRIS_ROTATION_SPEED = 10
 
 // laser
 export const LASER_BEAM_SPEED = 15
@@ -27,8 +32,11 @@ export const ASTEROID_SCALE = 30
 export const ASTEROID_COLOR = '#ffffff'
 export const ASTEROID_STROKE_WIDTH = 2
 export const ASTEROID_VERTICES_COUNT = 8
-export const ASTEROID_DEBRIS_ROTATION_SPEED = 10
+export const ASTEROID_DEBRIS_COUNT = 6
 export const ASTEROID_DEBRIS_VERTICES_COUNT = 6
+export const ASTEROID_DEBRIS_SCALE = 110
+export const ASTEROID_DEBRIS_SPEED = 7
+export const ASTEROID_DEBRIS_ROTATION_SPEED = 10
 
 /**
  * Action constants
