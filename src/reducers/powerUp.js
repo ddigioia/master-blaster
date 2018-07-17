@@ -46,6 +46,8 @@ function powerUp (state = initPowerUp, action) {
   let powerUps
 
   switch(action.type) {
+    case constants.START:
+      return updateObj(state, initPowerUp)
     case constants.CREATE_POWER_UP:
       powerUps = [...state.powerUps]
       powerUps.push(createPowerUp())
@@ -57,6 +59,13 @@ function powerUp (state = initPowerUp, action) {
           .map(updatePowerUpPosition)
           .filter(checkIfElementIsInPlay)
       )
+
+      return updateObj(state, {powerUps})
+    case constants.POWER_UP_HIT:
+      let { powerUp } = action
+      powerUps = [...state.powerUps]
+
+      powerUps.splice(powerUp.index, 1)
 
       return updateObj(state, {powerUps})
     default:

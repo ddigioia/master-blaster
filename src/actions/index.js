@@ -64,6 +64,14 @@ export function asteroidHit (asteroid, laserBeam) {
   }
 }
 
+export function powerUpHit (powerUp, laserBeam) {
+  return {
+    type: constants.POWER_UP_HIT,
+    powerUp: powerUp,
+    laserBeam: laserBeam
+  }
+}
+
 export function gameOver (ship) {
   return {
     type: constants.GAME_OVER,
@@ -87,6 +95,57 @@ export function createAsteroids (asteroidCount) {
 export function createPowerUp () {
   return {
     type: constants.CREATE_POWER_UP
+  }
+}
+
+export function powerUpHitTest () {
+  return (dispatch, getState) => {
+    let {
+      powerUp,
+      laser
+    } = getState()
+
+    for (let i = 0; i < powerUp.powerUps.length; i++) {
+      let {
+        radius,
+        position: {
+          x,
+          y
+        },
+        speed
+      } = powerUp.powerUps[i]
+      let a = {
+        radius,
+        position: {
+          x,
+          y
+        },
+        speed
+      }
+      for (let j = 0; j < laser.beams.length; j++) {
+        let {
+          radius,
+          position: {
+            x,
+            y
+          }
+        } = laser.beams[j]
+        let b = {
+          radius,
+          position: {
+            x,
+            y
+          }
+        }
+        let isHit = hitTest(a, b)
+        let hitPowerUp = updateObj(a, {index: i})
+        let hitLaserBeam = updateObj(b, {index: j})
+
+        if (isHit) {
+          dispatch(powerUpHit(hitPowerUp, hitLaserBeam))
+        }
+      }
+    }
   }
 }
 

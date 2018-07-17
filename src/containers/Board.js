@@ -7,6 +7,7 @@ import Ship from '../components/Ship'
 import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
 import Debris from '../components/Debris'
+import PowerUp from '../components/PowerUp'
 import ScoreBoard from '../components/ScoreBoard'
 import { screen, randomNumInRange } from '../helpers'
 import * as constants from '../constants'
@@ -22,6 +23,7 @@ import {
   update,
   asteroidHitTest,
   shipHitTest,
+  powerUpHitTest,
   createAsteroids,
   createPowerUp
 } from '../actions'
@@ -35,6 +37,7 @@ class Board extends Component {
     this.handleStart = this.handleStart.bind(this)
     this.started = false
     this.asteroidIntervalId = 0
+    this.powerUpIntervalId = 0
   }
 
   handleKeyDown ({keyCode}) {
@@ -80,6 +83,7 @@ class Board extends Component {
   updateGame () {
     this.props.asteroidHitTest()
     this.props.shipHitTest()
+    this.props.powerUpHitTest()
     this.props.update()
     window.requestAnimationFrame(this.updateGame.bind(this))
   }
@@ -99,15 +103,23 @@ class Board extends Component {
     }, 2000)
   }
 
+  powerUpCreator () {
+    this.powerUpIntervalId = window.setInterval(() => {
+      this.props.createPowerUp()
+    }, 1000)
+  }
+
   handleStart () {
     const board = this.board.current
     window.clearInterval(this.asteroidIntervalId)
+    window.clearInterval(this.powerUpIntervalId)
     board.focus()
     this.props.start()
     if (this.started === false) {
       this.updateGame()
     }
     this.asteroidCreator()
+    this.powerUpCreator()
     this.started = true
   }
 
@@ -152,6 +164,19 @@ class Board extends Component {
     })
   }
 
+  mapPowerUps (powerUp) {
+    return powerUp.powerUps.map(powerUp => {
+      return (
+        <PowerUp
+          rotation={powerUp.rotation}
+          position={powerUp.position}
+          radius={powerUp.radius}
+          key={uuid()}
+        />
+      )
+    })
+  }
+
   render () {
     let {
       ship,
@@ -159,7 +184,8 @@ class Board extends Component {
       laser,
       debris,
       scoreBoard,
-      board
+      board,
+      powerUp
     } = this.props
 
     return (
@@ -212,6 +238,7 @@ class Board extends Component {
             { this.mapLaserBeams(laser) }
             { this.mapAsteroids(asteroid) }
             { this.mapDebris(debris) }
+            { this.mapPowerUps(powerUp) }
           </Layer>
         </Stage>
       </div>
@@ -244,6 +271,7 @@ const mapDispatchToProps = dispatch => {
     asteroidHitTest: () => dispatch(asteroidHitTest()),
     shipHitTest: () => dispatch(shipHitTest()),
     createPowerUp: () => dispatch(createPowerUp()),
+    powerUpHitTest: () => dispatch(powerUpHitTest()),
     fire: laserOrigin => dispatch(fire(laserOrigin)),
     createAsteroids: asteroidCount => dispatch(createAsteroids(asteroidCount))
   }

@@ -1,11 +1,11 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { Line } from 'react-konva'
 import * as constants from '../constants'
 
 class PowerUp extends Component {
   
   render () {
-    let {position, rotation, radius} = this.props
+    let {rotation, position, radius} = this.props
 
     return (
       <Line

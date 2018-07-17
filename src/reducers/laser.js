@@ -48,6 +48,7 @@ function laser (state = initLaser, action) {
 
       return updateObj(state, {beams})
     case constants.ASTEROID_HIT:
+    case constants.POWER_UP_HIT:
       let { laserBeam } = action
       beams = [...state.beams]
 
