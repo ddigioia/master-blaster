@@ -15,7 +15,6 @@ class Asteroid extends Component {
         stroke={constants.ASTEROID_COLOR}
         closed='true'
         rotation={rotation}
-        // rotate={150}
       />
     )
   }

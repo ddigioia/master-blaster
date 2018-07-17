@@ -15,6 +15,12 @@ export const SHIP_DEBRIS_SCALE = 165
 export const SHIP_DEBRIS_SPEED = 10
 export const SHIP_DEBRIS_ROTATION_SPEED = 10
 
+// power up
+export const POWER_UP_SCALE = 150
+export const POWER_UP_SPEED = 3
+export const POWER_UP_STROKE_WIDTH = 2
+export const POWER_UP_COLOR = '#28ff00'
+
 // laser
 export const LASER_BEAM_SPEED = 15
 export const LASER_STROKE_WIDTH = 3
@@ -56,6 +62,7 @@ export const ASTEROID_HIT = 'ASTEROID_HIT'
 export const GAME_OVER = 'GAME_OVER'
 export const PAUSE = 'PAUSE'
 export const CREATE_ASTEROIDS = 'CREATE_ASTEROIDS'
+export const CREATE_POWER_UP = 'CREATE_POWER_UP'
 
 /**
  * Game state constants

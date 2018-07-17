@@ -84,6 +84,12 @@ export function createAsteroids (asteroidCount) {
   }
 }
 
+export function createPowerUp () {
+  return {
+    type: constants.CREATE_POWER_UP
+  }
+}
+
 export function asteroidHitTest () {
   return (dispatch, getState) => {
     let {

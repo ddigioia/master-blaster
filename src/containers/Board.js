@@ -22,7 +22,8 @@ import {
   update,
   asteroidHitTest,
   shipHitTest,
-  createAsteroids
+  createAsteroids,
+  createPowerUp
 } from '../actions'
 
 class Board extends Component {
@@ -225,7 +226,8 @@ const mapStateToProps = state => {
     laser: state.laser,
     debris: state.debris,
     scoreBoard: state.scoreBoard,
-    board: state.board
+    board: state.board,
+    powerUp: state.powerUp
   }
 }
 
@@ -241,6 +243,7 @@ const mapDispatchToProps = dispatch => {
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),
     shipHitTest: () => dispatch(shipHitTest()),
+    createPowerUp: () => dispatch(createPowerUp()),
     fire: laserOrigin => dispatch(fire(laserOrigin)),
     createAsteroids: asteroidCount => dispatch(createAsteroids(asteroidCount))
   }

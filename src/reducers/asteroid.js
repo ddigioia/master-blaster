@@ -8,10 +8,8 @@ import {
   checkIfElementIsInPlay
 } from '../helpers'
 
-function initAsteroid () {
-  return {
-    asteroids: []
-  }
+let initAsteroid = {
+  asteroids: []
 }
 
 function createAsteroid () {
@@ -69,11 +67,7 @@ function updateAsteroidPosition (asteroid) {
   })
 }
 
-export default function asteroid (state, action) {
-  if (typeof state === 'undefined') {
-    state = updateObj(state, initAsteroid())
-  }
-
+function asteroid (state = initAsteroid, action) {
   let asteroids
   let asteroidCount
 
@@ -107,3 +101,5 @@ export default function asteroid (state, action) {
       return state
   }
 }
+
+export default asteroid

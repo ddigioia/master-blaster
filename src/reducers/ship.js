@@ -6,18 +6,16 @@ import {
   updateObj
 } from '../helpers'
 
-function resetShip () {
-  return {
-    direction: undefined,
-    rotation: undefined,
-    position: {
-      x: undefined,
-      y: undefined
-    },
-    radius: undefined,
-    rotationSpeed: undefined,
-    speed: undefined
-  }
+let resetShip = {
+  direction: undefined,
+  rotation: undefined,
+  position: {
+    x: undefined,
+    y: undefined
+  },
+  radius: undefined,
+  rotationSpeed: undefined,
+  speed: undefined
 }
 
 function initShip () {
@@ -35,11 +33,7 @@ function initShip () {
   }
 }
 
-export default function ship (state, action) {
-  if (typeof state === 'undefined') {
-    state = updateObj(state, resetShip())
-  }
-
+function ship (state = resetShip, action) {
   let rotation
 
   switch (action.type) {
@@ -70,7 +64,7 @@ export default function ship (state, action) {
         rotationSpeed: 0
       })
     case constants.GAME_OVER:
-      return updateObj(state, resetShip())
+      return updateObj(state, resetShip)
     case constants.UPDATE:
       rotation = (state.rotation + 360 + state.rotationSpeed) % 360
       return updateObj(state, {
@@ -87,3 +81,5 @@ export default function ship (state, action) {
       return state
   }
 }
+
+export default ship

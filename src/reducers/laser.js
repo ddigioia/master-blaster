@@ -6,10 +6,8 @@ import {
   checkIfElementIsInPlay
 } from '../helpers'
 
-function initLaser () {
-  return {
-    beams: []
-  }
+let initLaser = {
+  beams: []
 }
 
 function initLaserBeam (laserOrigin) {
@@ -31,11 +29,7 @@ function updateBeamPosition (beam) {
   })
 }
 
-export default function laser (state, action) {
-  if (typeof state === 'undefined') {
-    state = updateObj(state, initLaser())
-  }
-
+function laser (state = initLaser, action) {
   let beams
 
   switch (action.type) {
@@ -64,3 +58,5 @@ export default function laser (state, action) {
       return state
   }
 }
+
+export default laser
