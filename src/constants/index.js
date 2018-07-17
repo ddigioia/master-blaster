@@ -27,6 +27,7 @@ export const DEBRIS_COLOR = '#ffffff'
 
 // asteroid
 export const ASTEROID_BATCH_COUNT = 5
+export const ASTEROID_BATCH_COUNT_MAX = 25
 export const ASTEROID_BATCH_COUNT_INCREASE = 1.05
 export const ASTEROID_SCALE = 30
 export const ASTEROID_COLOR = '#ffffff'

@@ -59,7 +59,7 @@ export default function ship (state, action) {
       })
     case constants.REVERSE:
       return updateObj(state, {
-        speed: -constants.SHIP_ACCELERATION // figure out proper mechanics here
+        speed: -constants.SHIP_ACCELERATION
       })
     case constants.STOP:
       return updateObj(state, {

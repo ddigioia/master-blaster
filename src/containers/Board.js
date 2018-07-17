@@ -54,6 +54,7 @@ class Board extends Component {
         let {rotation, position: {x, y}, radius} = this.props.ship
         let laserOrigin = {rotation, position: {x, y}, radius}
         this.props.fire(laserOrigin)
+        // this.props.stopRotation() // prevents spray and pray
         break
       default:
         break
@@ -84,12 +85,15 @@ class Board extends Component {
 
   asteroidCreator () {
     let count
-    let max = constants.ASTEROID_BATCH_COUNT
-    let min = constants.ASTEROID_BATCH_COUNT
+    let rangeMax = constants.ASTEROID_BATCH_COUNT
+    let rangeMin = constants.ASTEROID_BATCH_COUNT
+    let batchMax = constants.ASTEROID_BATCH_COUNT_MAX
     let increment = constants.ASTEROID_BATCH_COUNT_INCREASE
+
     this.asteroidIntervalId = window.setInterval(() => {
-      max *= increment
-      count = randomNumInRange(min, Math.floor(max))
+      if (rangeMax < batchMax) rangeMax *= increment
+
+      count = randomNumInRange(rangeMin, Math.floor(rangeMax))
       this.props.createAsteroids(count)
     }, 2000)
   }
