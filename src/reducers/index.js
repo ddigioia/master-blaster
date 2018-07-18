@@ -5,6 +5,7 @@ import asteroid from './asteroid'
 import debris from './debris'
 import scoreBoard from './scoreBoard'
 import board from './board'
+import powerUp from './powerUp'
 
 export default combineReducers({
   ship,
@@ -12,5 +13,6 @@ export default combineReducers({
   asteroid,
   debris,
   scoreBoard,
-  board
+  board,
+  powerUp
 })

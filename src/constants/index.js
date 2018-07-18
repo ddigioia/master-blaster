@@ -15,6 +15,13 @@ export const SHIP_DEBRIS_SCALE = 165
 export const SHIP_DEBRIS_SPEED = 10
 export const SHIP_DEBRIS_ROTATION_SPEED = 10
 
+// power up
+export const POWER_UP_SCALE = 150
+export const POWER_UP_SPEED = 3
+export const POWER_UP_STROKE_WIDTH = 2
+export const POWER_UP_COLOR = '#28ff00'
+export const POWER_UP_DURATION = 10000
+
 // laser
 export const LASER_BEAM_SPEED = 15
 export const LASER_STROKE_WIDTH = 3
@@ -27,6 +34,7 @@ export const DEBRIS_COLOR = '#ffffff'
 
 // asteroid
 export const ASTEROID_BATCH_COUNT = 5
+export const ASTEROID_BATCH_COUNT_MAX = 25
 export const ASTEROID_BATCH_COUNT_INCREASE = 1.05
 export const ASTEROID_SCALE = 30
 export const ASTEROID_COLOR = '#ffffff'
@@ -41,6 +49,10 @@ export const ASTEROID_DEBRIS_ROTATION_SPEED = 10
 /**
  * Action constants
  */
+export const CREATE_ASTEROIDS = 'CREATE_ASTEROIDS'
+export const CREATE_POWER_UP = 'CREATE_POWER_UP'
+export const ASTEROID_HIT = 'ASTEROID_HIT'
+export const POWER_UP_HIT = 'POWER_UP_HIT'
 export const START = 'START'
 export const ROTATE_RIGHT = 'ROTATE_RIGHT'
 export const ROTATE_LEFT = 'ROTATE_LEFT'
@@ -51,10 +63,8 @@ export const STOP_ROTATION = 'STOP_ROTATION'
 export const FIRE = 'FIRE'
 export const UPDATE = 'UPDATE'
 export const HIT_TEST = 'HIT_TEST'
-export const ASTEROID_HIT = 'ASTEROID_HIT'
 export const GAME_OVER = 'GAME_OVER'
 export const PAUSE = 'PAUSE'
-export const CREATE_ASTEROIDS = 'CREATE_ASTEROIDS'
 
 /**
  * Game state constants

@@ -7,6 +7,7 @@ import Ship from '../components/Ship'
 import Asteroid from '../components/Asteroid'
 import Laser from '../components/Laser'
 import Debris from '../components/Debris'
+import PowerUp from '../components/PowerUp'
 import ScoreBoard from '../components/ScoreBoard'
 import { screen, randomNumInRange } from '../helpers'
 import * as constants from '../constants'
@@ -22,7 +23,9 @@ import {
   update,
   asteroidHitTest,
   shipHitTest,
-  createAsteroids
+  powerUpHitTest,
+  createAsteroids,
+  createPowerUp
 } from '../actions'
 
 class Board extends Component {
@@ -34,6 +37,7 @@ class Board extends Component {
     this.handleStart = this.handleStart.bind(this)
     this.started = false
     this.asteroidIntervalId = 0
+    this.powerUpIntervalId = 0
   }
 
   handleKeyDown ({keyCode}) {
@@ -51,13 +55,27 @@ class Board extends Component {
         this.props.reverse()
         break
       case constants.SPACE:
-        let {rotation, position: {x, y}, radius} = this.props.ship
-        let laserOrigin = {rotation, position: {x, y}, radius}
-        this.props.fire(laserOrigin)
+        this.handleFire()
+        // let {rotation, position: {x, y}, radius, poweredUpTimeStamp} = this.props.ship
+        // let laserOrigin = {rotation, position: {x, y}, radius}
+        // this.props.fire(laserOrigin)
+
+        // this.props.stopRotation() // prevents spray and pray
         break
       default:
         break
     }
+  }
+
+  handleFire () {
+    let {rotation, position: {x, y}, radius, poweredUpTimeStamp} = this.props.ship
+    let laser = {
+      rotation,
+      position: {x, y},
+      radius,
+      quantity: poweredUpTimeStamp ? 2 : 1
+    }
+    this.props.fire(laser)
   }
 
   handleKeyUp ({keyCode}) {
@@ -78,31 +96,43 @@ class Board extends Component {
   updateGame () {
     this.props.asteroidHitTest()
     this.props.shipHitTest()
+    this.props.powerUpHitTest()
     this.props.update()
     window.requestAnimationFrame(this.updateGame.bind(this))
   }
 
   asteroidCreator () {
     let count
-    let max = constants.ASTEROID_BATCH_COUNT
-    let min = constants.ASTEROID_BATCH_COUNT
+    let rangeMax = constants.ASTEROID_BATCH_COUNT
+    let rangeMin = constants.ASTEROID_BATCH_COUNT
+    let batchMax = constants.ASTEROID_BATCH_COUNT_MAX
     let increment = constants.ASTEROID_BATCH_COUNT_INCREASE
+
     this.asteroidIntervalId = window.setInterval(() => {
-      max *= increment
-      count = randomNumInRange(min, Math.floor(max))
+      if (rangeMax < batchMax) rangeMax *= increment
+
+      count = randomNumInRange(rangeMin, Math.floor(rangeMax))
       this.props.createAsteroids(count)
     }, 2000)
+  }
+
+  powerUpCreator () {
+    this.powerUpIntervalId = window.setInterval(() => {
+      this.props.createPowerUp()
+    }, 1000)
   }
 
   handleStart () {
     const board = this.board.current
     window.clearInterval(this.asteroidIntervalId)
+    window.clearInterval(this.powerUpIntervalId)
     board.focus()
     this.props.start()
     if (this.started === false) {
       this.updateGame()
     }
     this.asteroidCreator()
+    this.powerUpCreator()
     this.started = true
   }
 
@@ -147,6 +177,19 @@ class Board extends Component {
     })
   }
 
+  mapPowerUps (powerUp) {
+    return powerUp.powerUps.map(powerUp => {
+      return (
+        <PowerUp
+          rotation={powerUp.rotation}
+          position={powerUp.position}
+          radius={powerUp.radius}
+          key={uuid()}
+        />
+      )
+    })
+  }
+
   render () {
     let {
       ship,
@@ -154,7 +197,8 @@ class Board extends Component {
       laser,
       debris,
       scoreBoard,
-      board
+      board,
+      powerUp
     } = this.props
 
     return (
@@ -207,6 +251,7 @@ class Board extends Component {
             { this.mapLaserBeams(laser) }
             { this.mapAsteroids(asteroid) }
             { this.mapDebris(debris) }
+            { this.mapPowerUps(powerUp) }
           </Layer>
         </Stage>
       </div>
@@ -221,7 +266,8 @@ const mapStateToProps = state => {
     laser: state.laser,
     debris: state.debris,
     scoreBoard: state.scoreBoard,
-    board: state.board
+    board: state.board,
+    powerUp: state.powerUp
   }
 }
 
@@ -237,7 +283,9 @@ const mapDispatchToProps = dispatch => {
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),
     shipHitTest: () => dispatch(shipHitTest()),
-    fire: laserOrigin => dispatch(fire(laserOrigin)),
+    createPowerUp: () => dispatch(createPowerUp()),
+    powerUpHitTest: () => dispatch(powerUpHitTest()),
+    fire: laser => dispatch(fire(laser)),
     createAsteroids: asteroidCount => dispatch(createAsteroids(asteroidCount))
   }
 }

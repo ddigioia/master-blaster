@@ -7,10 +7,8 @@ import {
   checkIfElementIsInPlay
 } from '../helpers'
 
-function initDebris () {
-  return {
-    fragments: []
-  }
+let initDebris = {
+  fragments: []
 }
 
 function createFragment (scale, speed, rotationSpeed, verticesCount, position) {
@@ -69,11 +67,7 @@ function updateFragmentPosition (fragment) {
   })
 }
 
-export default function debris (state, action) {
-  if (typeof state === 'undefined') {
-    state = updateObj(state, initDebris())
-  }
-
+function debris (state = initDebris, action) {
   let fragments
   let newFragments
 
@@ -101,3 +95,5 @@ export default function debris (state, action) {
       return state
   }
 }
+
+export default debris

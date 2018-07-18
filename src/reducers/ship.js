@@ -6,18 +6,17 @@ import {
   updateObj
 } from '../helpers'
 
-function resetShip () {
-  return {
-    direction: undefined,
-    rotation: undefined,
-    position: {
-      x: undefined,
-      y: undefined
-    },
-    radius: undefined,
-    rotationSpeed: undefined,
-    speed: undefined
-  }
+let resetShip = {
+  direction: undefined,
+  rotation: undefined,
+  position: {
+    x: undefined,
+    y: undefined
+  },
+  radius: undefined,
+  rotationSpeed: undefined,
+  speed: undefined,
+  poweredUpTimeStamp: undefined
 }
 
 function initShip () {
@@ -31,16 +30,24 @@ function initShip () {
     radius: screen.width() / constants.SHIP_SCALE,
     rotationSpeed: 0,
     speed: 0,
-    inertia: constants.SHIP_INERTIA
+    inertia: constants.SHIP_INERTIA,
+    poweredUpTimeStamp: 0
   }
 }
 
-export default function ship (state, action) {
-  if (typeof state === 'undefined') {
-    state = updateObj(state, resetShip())
+function checkPoweredUp (poweredUpTimeStamp) {
+  if (!poweredUpTimeStamp) return 0
+
+  if (Date.now() - poweredUpTimeStamp < constants.POWER_UP_DURATION) {
+    return poweredUpTimeStamp
   }
 
+  return 0
+}
+
+function ship (state = resetShip, action) {
   let rotation
+  let poweredUpTimeStamp
 
   switch (action.type) {
     case constants.START:
@@ -59,7 +66,7 @@ export default function ship (state, action) {
       })
     case constants.REVERSE:
       return updateObj(state, {
-        speed: -constants.SHIP_ACCELERATION // figure out proper mechanics here
+        speed: -constants.SHIP_ACCELERATION
       })
     case constants.STOP:
       return updateObj(state, {
@@ -69,10 +76,16 @@ export default function ship (state, action) {
       return updateObj(state, {
         rotationSpeed: 0
       })
+    case constants.POWER_UP_HIT:
+      return updateObj(state, {
+        poweredUpTimeStamp: Date.now()
+      })
     case constants.GAME_OVER:
-      return updateObj(state, resetShip())
+      return updateObj(state, resetShip)
     case constants.UPDATE:
       rotation = (state.rotation + 360 + state.rotationSpeed) % 360
+      poweredUpTimeStamp = checkPoweredUp(state.poweredUpTimeStamp)
+
       return updateObj(state, {
         position: {
           x: (state.position.x + calcXDist(state.direction, state.speed) +
@@ -81,9 +94,12 @@ export default function ship (state, action) {
             screen.height()) % screen.height()
         },
         rotation: rotation,
-        direction: rotation
+        direction: rotation,
+        poweredUpTimeStamp: poweredUpTimeStamp 
       })
     default:
       return state
   }
 }
+
+export default ship

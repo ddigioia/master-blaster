@@ -49,10 +49,10 @@ export function stopRotation () {
   }
 }
 
-export function fire (laserOrigin) {
+export function fire (laser) {
   return {
     type: constants.FIRE,
-    laserOrigin: laserOrigin
+    laser: laser
   }
 }
 
@@ -60,6 +60,14 @@ export function asteroidHit (asteroid, laserBeam) {
   return {
     type: constants.ASTEROID_HIT,
     asteroid: asteroid,
+    laserBeam: laserBeam
+  }
+}
+
+export function powerUpHit (powerUp, laserBeam) {
+  return {
+    type: constants.POWER_UP_HIT,
+    powerUp: powerUp,
     laserBeam: laserBeam
   }
 }
@@ -81,6 +89,63 @@ export function createAsteroids (asteroidCount) {
   return {
     type: constants.CREATE_ASTEROIDS,
     asteroidCount: asteroidCount
+  }
+}
+
+export function createPowerUp () {
+  return {
+    type: constants.CREATE_POWER_UP
+  }
+}
+
+export function powerUpHitTest () {
+  return (dispatch, getState) => {
+    let {
+      powerUp,
+      laser
+    } = getState()
+
+    for (let i = 0; i < powerUp.powerUps.length; i++) {
+      let {
+        radius,
+        position: {
+          x,
+          y
+        },
+        speed
+      } = powerUp.powerUps[i]
+      let a = {
+        radius,
+        position: {
+          x,
+          y
+        },
+        speed
+      }
+      for (let j = 0; j < laser.beams.length; j++) {
+        let {
+          radius,
+          position: {
+            x,
+            y
+          }
+        } = laser.beams[j]
+        let b = {
+          radius,
+          position: {
+            x,
+            y
+          }
+        }
+        let isHit = hitTest(a, b)
+        let hitPowerUp = updateObj(a, {index: i})
+        let hitLaserBeam = updateObj(b, {index: j})
+
+        if (isHit) {
+          dispatch(powerUpHit(hitPowerUp, hitLaserBeam))
+        }
+      }
+    }
   }
 }
 
