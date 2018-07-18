@@ -56,10 +56,6 @@ class Board extends Component {
         break
       case constants.SPACE:
         this.handleFire()
-        // let {rotation, position: {x, y}, radius, poweredUpTimeStamp} = this.props.ship
-        // let laserOrigin = {rotation, position: {x, y}, radius}
-        // this.props.fire(laserOrigin)
-
         // this.props.stopRotation() // prevents spray and pray
         break
       default:
@@ -119,7 +115,7 @@ class Board extends Component {
   powerUpCreator () {
     this.powerUpIntervalId = window.setInterval(() => {
       this.props.createPowerUp()
-    }, 1000)
+    }, 5000)
   }
 
   handleStart () {
@@ -143,6 +139,7 @@ class Board extends Component {
           rotation={beam.rotation}
           position={beam.position}
           radius={beam.radius}
+          color={beam.color}
           key={uuid()}
         />
       )
@@ -247,6 +244,7 @@ class Board extends Component {
               position={ship.position}
               rotation={ship.rotation}
               radius={ship.radius}
+              color={ship.color}
             />
             { this.mapLaserBeams(laser) }
             { this.mapAsteroids(asteroid) }

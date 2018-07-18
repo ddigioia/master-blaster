@@ -11,9 +11,11 @@ let initLaser = {
 }
 
 function initLaserBeams (laser) {
+  // quantity is proxy for powered up state
   const {rotation, position: {x, y}, radius, quantity} = laser
   let beams = []
-  
+  let color = quantity === 2 ? constants.LASER_POWER_UP_COLOR : constants.LASER_INITIAL_COLOR
+
   for (let i = 0; i < quantity; i++) {
     beams.push(
       {
@@ -23,7 +25,8 @@ function initLaserBeams (laser) {
           y: quantity === 2 ? (i ? y - radius : y + radius) : y
         },
         radius,
-        speed: constants.LASER_BEAM_SPEED
+        speed: constants.LASER_BEAM_SPEED,
+        color
       }
     )
   }

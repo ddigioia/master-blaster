@@ -4,7 +4,7 @@ import * as constants from '../constants'
 
 class Laser extends Component {
   render () {
-    let {position, rotation, radius} = this.props
+    let {position, rotation, radius, color} = this.props
 
     return (
       <Line
@@ -14,7 +14,7 @@ class Laser extends Component {
           [radius, 0, radius * 2, 0]
         }
         strokeWidth={constants.LASER_STROKE_WIDTH}
-        stroke={constants.LASER_COLOR}
+        stroke={color}
         closed='true'
         rotation={rotation}
       />

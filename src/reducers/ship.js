@@ -16,7 +16,8 @@ let resetShip = {
   radius: undefined,
   rotationSpeed: undefined,
   speed: undefined,
-  poweredUpTimeStamp: undefined
+  poweredUpTimeStamp: undefined,
+  color: undefined
 }
 
 function initShip () {
@@ -31,7 +32,8 @@ function initShip () {
     rotationSpeed: 0,
     speed: 0,
     inertia: constants.SHIP_INERTIA,
-    poweredUpTimeStamp: 0
+    poweredUpTimeStamp: 0,
+    color: constants.SHIP_INITIAL_COLOR
   }
 }
 
@@ -48,6 +50,7 @@ function checkPoweredUp (poweredUpTimeStamp) {
 function ship (state = resetShip, action) {
   let rotation
   let poweredUpTimeStamp
+  let color
 
   switch (action.type) {
     case constants.START:
@@ -78,13 +81,15 @@ function ship (state = resetShip, action) {
       })
     case constants.POWER_UP_HIT:
       return updateObj(state, {
-        poweredUpTimeStamp: Date.now()
+        poweredUpTimeStamp: Date.now(),
+        color: constants.SHIP_POWER_UP_COLOR
       })
     case constants.GAME_OVER:
       return updateObj(state, resetShip)
     case constants.UPDATE:
       rotation = (state.rotation + 360 + state.rotationSpeed) % 360
       poweredUpTimeStamp = checkPoweredUp(state.poweredUpTimeStamp)
+      color = poweredUpTimeStamp ? constants.SHIP_POWER_UP_COLOR : constants.SHIP_INITIAL_COLOR
 
       return updateObj(state, {
         position: {
@@ -95,7 +100,8 @@ function ship (state = resetShip, action) {
         },
         rotation: rotation,
         direction: rotation,
-        poweredUpTimeStamp: poweredUpTimeStamp 
+        poweredUpTimeStamp: poweredUpTimeStamp,
+        color: color
       })
     default:
       return state

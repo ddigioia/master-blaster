@@ -3,7 +3,6 @@ import { Line, Star } from 'react-konva'
 import * as constants from '../constants'
 
 class PowerUp extends Component {
-  
   render () {
     let {rotation, position, radius} = this.props
 

@@ -4,7 +4,7 @@ import * as constants from '../constants'
 
 class Ship extends Component {
   render () {
-    let {position, rotation, radius} = this.props
+    let {position, rotation, radius, color} = this.props
 
     return (
       <Line
@@ -23,7 +23,7 @@ class Ship extends Component {
         ]
         }
         strokeWidth={constants.SHIP_STROKE_WIDTH}
-        stroke={constants.SHIP_COLOR}
+        stroke={color}
         closed='true'
         rotation={rotation}
       />
