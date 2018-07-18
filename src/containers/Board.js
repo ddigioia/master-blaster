@@ -55,14 +55,39 @@ class Board extends Component {
         this.props.reverse()
         break
       case constants.SPACE:
-        let {rotation, position: {x, y}, radius} = this.props.ship
-        let laserOrigin = {rotation, position: {x, y}, radius}
-        this.props.fire(laserOrigin)
+        this.handleFire()
+        // let {rotation, position: {x, y}, radius, poweredUpTimeStamp} = this.props.ship
+        // let laserOrigin = {rotation, position: {x, y}, radius}
+        // this.props.fire(laserOrigin)
+
         // this.props.stopRotation() // prevents spray and pray
         break
       default:
         break
     }
+  }
+
+  handleFire () {
+    let {rotation, position: {x, y}, radius, poweredUpTimeStamp} = this.props.ship
+    let laserOrigin
+
+    if (!poweredUpTimeStamp) {
+      laserOrigin = {rotation, position: {x, y}, radius}
+      this.props.fire(laserOrigin)
+    } else {
+      for (let i = 0; i < 2; i++) {
+        laserOrigin = {
+          rotation,
+          position: {
+            x,
+            y: i ? y - radius : y + radius
+          },
+          radius
+        }
+        this.props.fire(laserOrigin)
+      }
+    }
+
   }
 
   handleKeyUp ({keyCode}) {

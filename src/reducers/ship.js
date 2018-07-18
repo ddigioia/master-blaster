@@ -15,7 +15,8 @@ let resetShip = {
   },
   radius: undefined,
   rotationSpeed: undefined,
-  speed: undefined
+  speed: undefined,
+  poweredUpTimeStamp: undefined
 }
 
 function initShip () {
@@ -29,12 +30,24 @@ function initShip () {
     radius: screen.width() / constants.SHIP_SCALE,
     rotationSpeed: 0,
     speed: 0,
-    inertia: constants.SHIP_INERTIA
+    inertia: constants.SHIP_INERTIA,
+    poweredUpTimeStamp: 0
   }
+}
+
+function checkPoweredUp ({poweredUpTimeStamp}) {
+  if (!poweredUpTimeStamp) return 0
+
+  if (Date.now() - poweredUpTimeStamp < constants.POWER_UP_DURATION) {
+    return poweredUpTimeStamp
+  }
+
+  return 0
 }
 
 function ship (state = resetShip, action) {
   let rotation
+  let poweredUp
 
   switch (action.type) {
     case constants.START:
@@ -63,10 +76,16 @@ function ship (state = resetShip, action) {
       return updateObj(state, {
         rotationSpeed: 0
       })
+    case constants.POWER_UP_HIT:
+      return updateObj(state, {
+        poweredUpTimeStamp: Date.now()
+      })
     case constants.GAME_OVER:
       return updateObj(state, resetShip)
     case constants.UPDATE:
       rotation = (state.rotation + 360 + state.rotationSpeed) % 360
+      poweredUp = checkPoweredUp(state)
+
       return updateObj(state, {
         position: {
           x: (state.position.x + calcXDist(state.direction, state.speed) +

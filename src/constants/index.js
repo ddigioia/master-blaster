@@ -20,6 +20,7 @@ export const POWER_UP_SCALE = 150
 export const POWER_UP_SPEED = 3
 export const POWER_UP_STROKE_WIDTH = 2
 export const POWER_UP_COLOR = '#28ff00'
+export const POWER_UP_DURATION = 10000
 
 // laser
 export const LASER_BEAM_SPEED = 15
