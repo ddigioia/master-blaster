@@ -49,10 +49,10 @@ export function stopRotation () {
   }
 }
 
-export function fire (laserOrigin) {
+export function fire (laser) {
   return {
     type: constants.FIRE,
-    laserOrigin: laserOrigin
+    laser: laser
   }
 }
 

@@ -35,7 +35,7 @@ function initShip () {
   }
 }
 
-function checkPoweredUp ({poweredUpTimeStamp}) {
+function checkPoweredUp (poweredUpTimeStamp) {
   if (!poweredUpTimeStamp) return 0
 
   if (Date.now() - poweredUpTimeStamp < constants.POWER_UP_DURATION) {
@@ -47,7 +47,7 @@ function checkPoweredUp ({poweredUpTimeStamp}) {
 
 function ship (state = resetShip, action) {
   let rotation
-  let poweredUp
+  let poweredUpTimeStamp
 
   switch (action.type) {
     case constants.START:
@@ -84,7 +84,7 @@ function ship (state = resetShip, action) {
       return updateObj(state, resetShip)
     case constants.UPDATE:
       rotation = (state.rotation + 360 + state.rotationSpeed) % 360
-      poweredUp = checkPoweredUp(state)
+      poweredUpTimeStamp = checkPoweredUp(state.poweredUpTimeStamp)
 
       return updateObj(state, {
         position: {
@@ -94,7 +94,8 @@ function ship (state = resetShip, action) {
             screen.height()) % screen.height()
         },
         rotation: rotation,
-        direction: rotation
+        direction: rotation,
+        poweredUpTimeStamp: poweredUpTimeStamp 
       })
     default:
       return state

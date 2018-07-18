@@ -69,25 +69,13 @@ class Board extends Component {
 
   handleFire () {
     let {rotation, position: {x, y}, radius, poweredUpTimeStamp} = this.props.ship
-    let laserOrigin
-
-    if (!poweredUpTimeStamp) {
-      laserOrigin = {rotation, position: {x, y}, radius}
-      this.props.fire(laserOrigin)
-    } else {
-      for (let i = 0; i < 2; i++) {
-        laserOrigin = {
-          rotation,
-          position: {
-            x,
-            y: i ? y - radius : y + radius
-          },
-          radius
-        }
-        this.props.fire(laserOrigin)
-      }
+    let laser = {
+      rotation,
+      position: {x, y},
+      radius,
+      quantity: poweredUpTimeStamp ? 2 : 1
     }
-
+    this.props.fire(laser)
   }
 
   handleKeyUp ({keyCode}) {
@@ -297,7 +285,7 @@ const mapDispatchToProps = dispatch => {
     shipHitTest: () => dispatch(shipHitTest()),
     createPowerUp: () => dispatch(createPowerUp()),
     powerUpHitTest: () => dispatch(powerUpHitTest()),
-    fire: laserOrigin => dispatch(fire(laserOrigin)),
+    fire: laser => dispatch(fire(laser)),
     createAsteroids: asteroidCount => dispatch(createAsteroids(asteroidCount))
   }
 }

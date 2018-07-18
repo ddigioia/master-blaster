@@ -10,14 +10,25 @@ let initLaser = {
   beams: []
 }
 
-function initLaserBeam (laserOrigin) {
-  const {rotation, position: {x, y}, radius} = laserOrigin
-  return {
-    rotation,
-    position: {x, y},
-    radius,
-    speed: constants.LASER_BEAM_SPEED
+function initLaserBeams (laser) {
+  const {rotation, position: {x, y}, radius, quantity} = laser
+  let beams = []
+  
+  for (let i = 0; i < quantity; i++) {
+    beams.push(
+      {
+        rotation, // this may need to change for 2 beams
+        position: {
+          x,
+          y: quantity === 2 ? (i ? y - radius : y + radius) : y
+        },
+        radius,
+        speed: constants.LASER_BEAM_SPEED
+      }
+    )
   }
+
+  return beams
 }
 
 function updateBeamPosition (beam) {
@@ -34,9 +45,8 @@ function laser (state = initLaser, action) {
 
   switch (action.type) {
     case constants.FIRE:
-      let newBeam = initLaserBeam(action.laserOrigin)
-      beams = [...state.beams]
-      beams.push(newBeam)
+      let newBeams = initLaserBeams(action.laser)
+      beams = [...state.beams, ...newBeams]
 
       return updateObj(state, {beams})
     case constants.UPDATE:
