@@ -8,7 +8,8 @@ export const SHIP_ACCELERATION = 5
 export const SHIP_INERTIA = 0.90
 export const SHIP_SCALE = 150
 export const SHIP_STROKE_WIDTH = 2
-export const SHIP_COLOR = '#ffffff'
+export const SHIP_INITIAL_COLOR = '#ffffff'
+export const SHIP_POWER_UP_COLOR = '#28ff00'
 export const SHIP_DEBRIS_COUNT = 3
 export const SHIP_DEBRIS_VERTICES_COUNT = 3
 export const SHIP_DEBRIS_SCALE = 165
@@ -20,12 +21,14 @@ export const POWER_UP_SCALE = 150
 export const POWER_UP_SPEED = 3
 export const POWER_UP_STROKE_WIDTH = 2
 export const POWER_UP_COLOR = '#28ff00'
-export const POWER_UP_DURATION = 10000
+export const POWER_UP_DURATION = 5000
+export const POWER_UP_ROTATION = 90
 
 // laser
 export const LASER_BEAM_SPEED = 15
 export const LASER_STROKE_WIDTH = 3
-export const LASER_COLOR = '#ffffff'
+export const LASER_INITIAL_COLOR = '#ffffff'
+export const LASER_POWER_UP_COLOR = '#28ff00'
 export const LASER_BEAM_RADIUS = 1
 
 // debris

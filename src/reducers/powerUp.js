@@ -13,21 +13,17 @@ let initPowerUp = {
 }
 
 function createPowerUp () {
-  const xStart = Math.round(Math.random()) > 0
-  const startTop = Math.round(Math.random()) > 0
-  const startLeft = Math.round(Math.random()) > 0
-  const randXPosition = Math.random() * screen.width()
-  const randYPosition = Math.random() * screen.height()
   const scale = constants.POWER_UP_SCALE
   const radius = screen.width() / scale
   const speed = constants.POWER_UP_SPEED
+  const rotation = constants.POWER_UP_ROTATION
 
   return {
     position: {
-      x: xStart ? (startLeft || screen.width()) : randXPosition,
-      y: xStart ? randYPosition : (startTop || screen.height())
+      x: Math.random() * screen.width(),
+      y: 0
     },
-    rotation: Math.round(Math.random() * 360),
+    rotation,
     speed,
     radius
   }
@@ -45,7 +41,7 @@ function updatePowerUpPosition (powerUp) {
 function powerUp (state = initPowerUp, action) {
   let powerUps
 
-  switch(action.type) {
+  switch (action.type) {
     case constants.START:
       return updateObj(state, initPowerUp)
     case constants.CREATE_POWER_UP:
