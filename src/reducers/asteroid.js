@@ -14,23 +14,43 @@ let initAsteroid = {
 
 function createAsteroid () {
   const scale = randomNumInRange(10, 60)
-  const xStart = Math.round(Math.random()) > 0
-  const startTop = Math.round(Math.random()) > 0
-  const startLeft = Math.round(Math.random()) > 0
-  const randXPosition = Math.random() * screen.width()
-  const randYPosition = Math.random() * screen.height()
   const radius = screen.width() / scale
 
   return {
-    position: {
-      x: xStart ? (startLeft || screen.width()) : randXPosition,
-      y: xStart ? randYPosition : (startTop || screen.height())
-    },
+    position: generatePositions(),
     speed: randomNumInRange(3, 10),
     rotation: Math.round(Math.random() * 360),
     radius,
     vertices: asteroidVertices(radius)
   }
+}
+
+function generatePositions () {
+  const xStart = Math.round(Math.random()) > 0
+  const startTop = Math.round(Math.random()) > 0
+  const startLeft = Math.round(Math.random()) > 0
+  const randXPosition = Math.random() * screen.width()
+  const randYPosition = Math.random() * screen.height()
+  let x
+  let y
+
+  if (xStart) {
+    y = randYPosition
+    if (startLeft) {
+      x = -10
+    } else {
+      x = screen.width()
+    }
+  } else {
+    x = randXPosition
+    if (startTop) {
+      y = -10
+    } else {
+      y = screen.height()
+    }
+  }
+
+  return {x, y}
 }
 
 function createAsteroids (numOfAsteroids) {
