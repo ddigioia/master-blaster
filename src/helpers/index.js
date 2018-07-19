@@ -10,10 +10,10 @@ export function hitTest (obj1, obj2) {
 
 export function checkIfElementIsInPlay (el) {
   return (
-    el.position.x >= 0 &&
-    el.position.x <= window.innerWidth &&
-    el.position.y >= 0 &&
-    el.position.y <= window.innerHeight
+    el.position.x >= -25 &&
+    el.position.x <= window.innerWidth + 25 &&
+    el.position.y >= -25 &&
+    el.position.y <= window.innerHeight + 25
   )
 }
 
