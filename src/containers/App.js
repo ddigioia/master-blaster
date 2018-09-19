@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { Provider } from 'react-redux'
 import '../styles/App.css'
 import Board from './Board'
+import appStore from '../store/appStore'
 
+// use named export here for tests
 class App extends Component {
   constructor (props) {
     super()
@@ -10,13 +12,13 @@ class App extends Component {
 
   render () {
     return (
-      <div className='App'>
-        <Board />
-      </div>
+      <Provider store={appStore}>
+        <div className='App'>
+          <Board />
+        </div>
+      </Provider>
     )
   }
 }
 
-export default connect((state) => ({
-  app: state.app
-}))(App)
+export default App

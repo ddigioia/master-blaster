@@ -4,7 +4,6 @@ import {
   calcXDist,
   calcYDist,
   updateObj,
-  randomNumInRange,
   checkIfElementIsInPlay
 } from '../helpers'
 
