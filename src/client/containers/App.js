@@ -6,18 +6,7 @@ import Board from './Board'
 class App extends Component {
   constructor (props) {
     super()
-    this.state = {
-      response: ''
-    }
-  }
-
-  async callApi () {
-    const response = await fetch('/api/hello')
-    const body = await response.json()
-
-    if (response.status !== 200) throw Error(body.message)
-
-    return body
+    this.state = {}
   }
 
   async createUser () {
@@ -37,8 +26,7 @@ class App extends Component {
 
     const url = '/api/user'
     const req = await fetch(url, reqObj)
-    console.log('req ', req)
-    const res = await req.json()
+    const res = await req.json() // might need to include error handling
 
     if (req.status !== 200) throw Error(res.message)
 
@@ -46,17 +34,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    this.callApi()
-      .then(res => {
-        this.setState({response: res.express})
-      })
-      .catch(err => console.log(err))
-
-    this.createUser()
-      .then(res => {
-        console.log('user res: ', res)
-      })
-      .catch(err => console.log(err))
+    // grab any data needed for start of app
   }
 
   render () {
