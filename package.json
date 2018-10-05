@@ -2,9 +2,12 @@
   "name": "master-blaster",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "dotenv": "^6.0.0",
+    "knex": "^0.15.2",
     "konva": "^2.1.6",
+    "mysql": "^2.16.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-konva": "^1.7.7",
@@ -15,12 +18,16 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon src/server",
+    "client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "concurrently": "^4.0.1",
+    "nodemon": "^1.18.4",
     "redux-devtools": "^3.4.1"
   }
 }
