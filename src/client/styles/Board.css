@@ -30,7 +30,7 @@
   background: none;
 }
 
-.start-btn {
+.start-btn, .login-btn {
   font-family: 'Press Start Regular';
   border: 3px solid white;
   color: white;
@@ -44,6 +44,15 @@
   margin-top: -17.5px;
   margin-left: -45px;
   z-index: 1;
+}
+
+.login-btn {
+  top: calc(50% + 40px);
+}
+
+.start-btn:hover, .login-btn:hover {
+  border-color: #28ff00;
+  color: #28ff00;
 }
 
 .game-over-con {

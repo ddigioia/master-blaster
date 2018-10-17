@@ -35,6 +35,7 @@ class Board extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleStart = this.handleStart.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
     this.started = false
     this.asteroidIntervalId = 0
     this.powerUpIntervalId = 0
@@ -130,6 +131,10 @@ class Board extends Component {
     this.asteroidCreator()
     this.powerUpCreator()
     this.started = true
+  }
+
+  handleLogin () {
+    console.log('trying to login')
   }
 
   mapLaserBeams (laser) {
@@ -230,6 +235,13 @@ class Board extends Component {
           onClick={this.handleStart}
         >
           Start
+        </button>
+        <button
+          className='btn login-btn'
+          style={{display: ((board.gameState === 'paused' || board.gameState === 'gameOver') && board.gameState !== 'loggedIn') ? 'block' : 'none'}}
+          onClick={this.handleLogin}
+        >
+          Login
         </button>
         <Stage
           width={screen.width()}

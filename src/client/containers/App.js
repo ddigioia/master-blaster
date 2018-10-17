@@ -11,7 +11,6 @@ class App extends Component {
 
   async createUser () {
     const user = {
-      userId: 4,
       userName: 'name1',
       userPassword: 'password1'
     }
@@ -24,8 +23,9 @@ class App extends Component {
       }
     }
 
-    const url = '/api/user'
+    const url = '/users'
     const req = await fetch(url, reqObj)
+    debugger
     const res = await req.json() // might need to include error handling
 
     if (req.status !== 200) throw Error(res.message)
@@ -35,6 +35,7 @@ class App extends Component {
 
   componentDidMount () {
     // grab any data needed for start of app
+    this.createUser()
   }
 
   render () {

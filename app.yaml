@@ -1,9 +1,2 @@
-runtime: nodejs
-env: flex
-skip_files:
-  - ^(.*/)?#.*#$
-  - ^(.*/)?.*~$
-  - ^(.*/)?.*\.py[co]$
-  - ^(.*/)?.*/RCS/.*$
-  - ^(.*/)?\..*$
-  - ^(.*/)?.*\yarn.lock$
+runtime: nodejs10
+# env: flex
