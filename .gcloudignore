@@ -3,4 +3,5 @@
 .git
 .env
 node_modules/
+create_db.sql
 package-lock.json

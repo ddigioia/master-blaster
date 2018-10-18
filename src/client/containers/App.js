@@ -25,7 +25,6 @@ class App extends Component {
 
     const url = '/users'
     const req = await fetch(url, reqObj)
-    debugger
     const res = await req.json() // might need to include error handling
 
     if (req.status !== 200) throw Error(res.message)
