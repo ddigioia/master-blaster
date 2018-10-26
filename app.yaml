@@ -1,2 +1,7 @@
-runtime: nodejs10
+runtime: nodejs8
 # env: flex
+env_variables:
+  SQL_USER: root
+  SQL_PASSWORD: Hamlet11!!
+  SQL_DATABASE: MasterBlasterDB
+  INSTANCE_CONNECTION_NAME: master-blaster-219718:us-west1:master-blaster-instance

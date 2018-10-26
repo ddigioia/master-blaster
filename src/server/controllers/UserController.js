@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const bodyParser = require('body-parser')
-const encryptor = require('simple-encryptor')(process.env.SECRET_KEY)
+// const encryptor = require('simple-encryptor')(process.env.SECRET_KEY)
 const knex = require('../knex')
 
 // middleware
@@ -10,13 +10,13 @@ router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
 
 // ** maybe setup some error handling **
-
+console.log('in user controller')
 function insertUser (user) {
   return knex('users').insert(user)
 }
 
 function getUsers () {
-  return knex().select().table('users')
+  return knex.select().from('users')
 }
 
 function getUser (id) {
@@ -27,12 +27,13 @@ function getUser (id) {
 
 // returns all users
 router.get('/', (req, res, next) => {
+  console.log('attempting to fetch users')
   getUsers()
     .then(users => {
       res
         .status(200)
-        .set('Content-Type', 'text-plain')
-        .send('Got users') // change
+        .set('Content-Type', 'application/json')
+        .send(users)
         .end()
     })
     .catch(err => {
@@ -70,9 +71,15 @@ router.post('/', (req, res, next) => {
     }
   } = req
 
+  // // encrypted version
+  // const user = {
+  //   userName: encryptor.encrypt(userName),
+  //   userPassword: encryptor.encrypt(userPassword)
+  // }
+
   const user = {
-    userName: encryptor.encrypt(userName),
-    userPassword: encryptor.encrypt(userPassword)
+    userName: userName,
+    userPassword: userPassword
   }
 
   insertUser(user)

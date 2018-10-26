@@ -32,9 +32,20 @@ class App extends Component {
     return res
   }
 
+  async getUser () {
+    const req = await fetch('/users')
+    const res = await req.json()
+
+    if (req.status !== 200) throw Error(res.message)
+
+    console.log('Fetched users: ', res)
+    return res
+  }
+
   componentDidMount () {
     // grab any data needed for start of app
-    this.createUser()
+    this.getUser()
+    console.log('app mounted')
   }
 
   render () {
