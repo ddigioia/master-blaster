@@ -1,0 +1,7 @@
+.input-error {
+  display: block;
+  height: 30px;
+  margin-top: 5px;
+  font-size: 10px;
+  color: red;
+}

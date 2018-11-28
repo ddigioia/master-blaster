@@ -12,6 +12,8 @@ function board (state = initBoard, action) {
       return updateObj(state, { gameState: 'paused' })
     case constants.START:
       return updateObj(state, { gameState: 'started' })
+    case constants.LOGGING_IN:
+      return updateObj(state, { gameState: 'loggingIn' })
     case constants.GAME_OVER:
       return updateObj(state, { gameState: 'gameOver' })
     default:

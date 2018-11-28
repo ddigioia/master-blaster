@@ -1,13 +1,17 @@
 import React from 'react'
+import '../styles/Button.css'
 
 function Button (props) {
   const {
     handleClick,
-    title
+    className,
+    title,
+    style,
+    type
   } = props
 
   return (
-    <button className="form-button" onClick={handleClick}>
+    <button type={type} className={className} onClick={handleClick} style={style}>
       {title}
     </button>
   )
