@@ -85,6 +85,12 @@ export function pause () {
   }
 }
 
+export function loggingIn () {
+  return {
+    type: constants.LOGGING_IN
+  }
+}
+
 export function createAsteroids (asteroidCount) {
   return {
     type: constants.CREATE_ASTEROIDS,

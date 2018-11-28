@@ -1,0 +1,24 @@
+.form-input {
+  background: transparent;
+  color: white;
+  width: 250px;
+  font-family: 'Press Start Regular';
+  border: 3px solid white;
+  color: white;
+  padding: 10px;
+  /* margin-bottom: 20px; */
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+.form-input:-ms-input-placeholder {
+  color: white;
+}
+
+.form-input::-ms-input-placeholder {
+  color: white;
+}

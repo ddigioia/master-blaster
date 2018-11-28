@@ -9,10 +9,13 @@ import Laser from '../components/Laser'
 import Debris from '../components/Debris'
 import PowerUp from '../components/PowerUp'
 import ScoreBoard from '../components/ScoreBoard'
+import Button from '../components/Button'
+import Form from './Form'
 import { screen, randomNumInRange } from '../helpers'
 import * as constants from '../constants'
 import {
   start,
+  loggingIn,
   rotateLeft,
   rotateRight,
   stopRotation,
@@ -20,6 +23,7 @@ import {
   reverse,
   fire,
   stop,
+  pause,
   update,
   asteroidHitTest,
   shipHitTest,
@@ -36,6 +40,7 @@ class Board extends Component {
     this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleStart = this.handleStart.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.handleBack = this.handleBack.bind(this)
     this.started = false
     this.asteroidIntervalId = 0
     this.powerUpIntervalId = 0
@@ -134,7 +139,17 @@ class Board extends Component {
   }
 
   handleLogin () {
-    console.log('trying to login')
+    /*
+      start login process
+
+      1) render form component
+      2) 
+    */
+    this.props.loggingIn()
+  }
+
+  handleBack () {
+    this.props.pause()
   }
 
   mapLaserBeams (laser) {
@@ -204,45 +219,48 @@ class Board extends Component {
     } = this.props
 
     return (
-      <div className='Board'
+      <div className="Board"
         ref={this.board}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
-        tabIndex='0'
+        tabIndex="0"
       >
-        <div className='board-header'>
+        <div className="board-header">
           <ScoreBoard
             currentScore={scoreBoard.currentScore}
             topScore={scoreBoard.topScore}
           />
           <span
-            className='controls'
-            style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none'}}
+            className="controls"
+            style={{display: (board.gameState === "paused" || board.gameState === "gameOver") ? "block" : "none"}}
           >
             Use [ ← ][ ↑ ][ ↓ ][ → ] to MOVE<br />
             Use [ SPACE ] to SHOOT
           </span>
         </div>
         <div
-          className='game-over-con'
-          style={{display: board.gameState === 'gameOver' ? 'block' : 'none'}}
+          className="game-over-con"
+          style={{display: board.gameState === "gameOver" ? "block" : "none"}}
         >
         GAME OVER
         </div>
-        <button
-          className='btn start-btn'
-          style={{display: (board.gameState === 'paused' || board.gameState === 'gameOver') ? 'block' : 'none'}}
-          onClick={this.handleStart}
-        >
-          Start
-        </button>
-        <button
-          className='btn login-btn'
-          style={{display: ((board.gameState === 'paused' || board.gameState === 'gameOver') && board.gameState !== 'loggedIn') ? 'block' : 'none'}}
-          onClick={this.handleLogin}
-        >
-          Login
-        </button>
+        <Button
+          className="btn start-btn"
+          style={{display: (board.gameState === "paused" || board.gameState === "gameOver") ? "block" : "none"}}
+          handleClick={this.handleStart}
+          title="Start"
+        />
+        <Button
+          className="btn login-btn"
+          style={{display: ((board.gameState === "paused" || board.gameState === "gameOver") && board.gameState !== "loggedIn") ? "block" : "none"}}
+          handleClick={this.handleLogin}
+          title="Login"
+        />
+        <Form
+          style={{display: (board.gameState === "loggingIn" ? "block" : "none")}}
+          handleBack={this.handleBack}
+          className="form-container login-form"
+        />
         <Stage
           width={screen.width()}
           height={screen.height()}
@@ -284,12 +302,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     start: () => dispatch(start()),
+    loggingIn: () => dispatch(loggingIn()),
     rotateLeft: () => dispatch(rotateLeft()),
     rotateRight: () => dispatch(rotateRight()),
     stopRotation: () => dispatch(stopRotation()),
     forward: () => dispatch(forward()),
     reverse: () => dispatch(reverse()),
     stop: () => dispatch(stop()),
+    pause: () => dispatch(pause()),
     update: () => dispatch(update()),
     asteroidHitTest: () => dispatch(asteroidHitTest()),
     shipHitTest: () => dispatch(shipHitTest()),

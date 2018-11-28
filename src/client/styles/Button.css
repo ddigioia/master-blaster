@@ -1,0 +1,48 @@
+.btn {
+  background: none;
+  font-family: 'Press Start Regular';
+  border: 3px solid white;
+  color: white;
+  cursor: pointer;
+  display: block;
+  width: 100px;
+  height: 35px;
+  z-index: 1;
+  outline: none;
+}
+
+.start-btn, .login-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -17.5px;
+  margin-left: -50px;
+}
+
+.login-btn {
+  top: calc(50% + 40px);
+}
+
+.submit-btn {
+  margin-right: 75px;
+  display: inline-block;
+}
+
+.back-btn {
+  display: inline-block;
+}
+
+.login-opt-btn, .signup-opt-btn {
+  border: none;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.opt-btn-active {
+  color: #28ff00;
+}
+
+.start-btn:hover, .login-btn:hover, .submit-btn:hover, .back-btn:hover {
+  border-color: #28ff00;
+  color: #28ff00;
+}
