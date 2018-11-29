@@ -22,9 +22,6 @@ class Form extends Component {
 
     this.handleInput = this.handleInput.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
-    this.handleClearForm = this.handleClearForm.bind(this)
-    this.handleName = this.handleName.bind(this)
-    this.handlePassword = this.handlePassword.bind(this)
     this.signUpSelected = this.signUpSelected.bind(this)
     this.loginSelected = this.loginSelected.bind(this)
     this.hideErrors = this.hideErrors.bind(this)
@@ -33,10 +30,10 @@ class Form extends Component {
   handleFormSubmit (event) {
     event.preventDefault()
 
-    const valid = this.validateInputs()
+    const validInputs = this.validateInputs()
 
-    if (valid) {
-      this.checkExistingUser()
+    if (validInputs) {
+      this.sendData(validInputs)
     }
 
 
@@ -50,16 +47,19 @@ class Form extends Component {
 
   }
 
-  handleClearForm () {
+  async sendData (user) {
+    const route = this.state.logginIn ? '/users/login' : '/users'
+    const reqObj = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }
+    const req = await fetch(route, reqObj)
+    const res = await req.json()
 
-  }
-
-  handleName () {
-
-  }
-
-  handlePassword () {
-
+    return res
   }
 
   checkValidExistingCredentials () {
@@ -72,7 +72,7 @@ class Form extends Component {
     const passwordEl = this.formEl.querySelector('#password')
     const password = passwordEl.value
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
-    let valid = true
+    let valid = {userName: name , userPassword: password}
 
     // validate name
     if (name.length === 0) {
@@ -97,10 +97,6 @@ class Form extends Component {
     }
 
     return valid
-  }
-
-  checkExistingUser () {
-    
   }
 
   hideErrors () {
