@@ -32,7 +32,7 @@ class App extends Component {
     return res
   }
 
-  async getUser () {
+  async getUsers () {
     const req = await fetch('/users')
     const res = await req.json()
 
@@ -42,9 +42,14 @@ class App extends Component {
     return res
   }
 
+  // async getUser () {
+  //   const req = await fetch(`/users`)
+  //   const res = await req.json()
+  // }
+
   componentDidMount () {
     // grab any data needed for start of app
-    this.getUser()
+    this.getUsers()
     console.log('app mounted')
   }
 

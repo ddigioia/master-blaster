@@ -2,6 +2,7 @@
 require('@google-cloud/debug-agent').start()
 
 const express = require('express')
+const expressValidator = require('express-validator')
 const app = express()
 const port = process.env.PORT || 5000
 
@@ -12,6 +13,9 @@ require('dotenv').config()
 
 // allows proxy - necessary for Cloud SQL - to be used
 app.enable('trust proxy')
+
+// attach validator middleware
+app.use(expressValidator())
 
 // pull in controllers
 const UserController = require('./controllers/UserController')
