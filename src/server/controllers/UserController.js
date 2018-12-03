@@ -3,6 +3,7 @@ const router = express.Router()
 const bodyParser = require('body-parser')
 // const encryptor = require('simple-encryptor')(process.env.SECRET_KEY)
 const knex = require('../knex')
+const jwt = require('../jwt')
 const { body, validationResult } = require('express-validator/check')
 
 // middleware
@@ -57,6 +58,7 @@ function validate (method) {
             const bodyPassword = req.body.userPassword
 
             if (user && user[0] && user[0].userPassword === bodyPassword) {
+              console.log('user: ', user)
               return Promise.resolve(user)
             }
 
@@ -71,8 +73,6 @@ function createUser (req, res, next) {
   // Check for errors
   const errors = validationResult(req)
 
-  console.log('errors: ', errors.array())
-
   // Send errors back in response
   if (!errors.isEmpty()) {
     return res.status(200).json({ errors: errors.array() })
@@ -84,6 +84,9 @@ function createUser (req, res, next) {
       userPassword
     }
   } = req
+
+  // jwt authentication
+  const token = jwt.sign({userName}, {subject: userName})
 
   // // encrypted version
   // const user = {
@@ -97,12 +100,11 @@ function createUser (req, res, next) {
   }
 
   insertUser(user)
-    .then(user => {
+    .then(({userName, userId}) => {
       res
         .status(200)
-        .set('Content-Type', 'application/json')
-        .send({user, message: 'Successful sign up!'})
-        .end()
+        .set('token', token)
+        .json({userName, userId, message: 'Successful sign up!'})
     })
     .catch(err => {
       next(err)
@@ -118,37 +120,35 @@ function loginUser (req, res, next) {
     return res.status(200).json({ errors: errors.array() })
   }
 
+
   const {
     body: {
-      userName,
-      userPassword
+      userName
     }
   } = req
 
+  // jwt authentication
+  const token = jwt.sign({userName}, {subject: userName})
+
   const user = {
-    userName: userName,
-    userPassword: userPassword
+    userName: userName
   }
 
   return res
           .status(200)
-          .set('Content-Type', 'application/json')
-          .send({user, message: 'Successful login!'})
-          .end()
+          .set('token', token)
+          .json({user, message: 'Successful login!'})
 }
 
 // routes
 
 // returns all users
 router.get('/', (req, res, next) => {
-  console.log('attempting to fetch users')
   getUsers()
     .then(users => {
       res
         .status(200)
-        .set('Content-Type', 'application/json')
-        .send(users)
-        .end()
+        .json(users)
     })
     .catch(err => {
       next(err)
@@ -156,24 +156,34 @@ router.get('/', (req, res, next) => {
 })
 
 // returns a single user
-router.get('/:id', (req, res, next) => {
+router.get('/:userName', (req, res, next) => {
   const {
     params: {
-      id
+      userName
+    },
+    headers: {
+      token
     }
   } = req
 
-  getUser(id)
-    .then(user => {
-      res
-        .status(200)
-        .set('Content-Type', 'text/plain')
-        .send(`User name:\n${user.userName}`)
-        .end()
-    })
-    .catch(err => {
-      next(err)
-    })
+  // verify jwt token on these requests
+  const verified = jwt.verify(token, {subject: userName})
+  console.log('=====VERIFIED=====: ', verified)
+
+  if (verified) {
+    getUserByName(userName)
+      .then(user => {
+        res
+          .status(200)
+          .json({message: `User name:\n${user[0].userName}`})
+      })
+      .catch(err => {
+        next(err)
+      })
+  } else {
+    res.status(200).json({message: 'Error. Not authorized.'})
+  }
+
 })
 
 // creates a user
