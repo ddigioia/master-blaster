@@ -3,6 +3,7 @@ import Input from '../components/Input'
 import InputError from '../components/InputError'
 import Button from '../components/Button'
 import '../styles/Form.css'
+import { setCookie, getCookie } from '../helpers'
 
 class Form extends Component {
   constructor (props) {
@@ -34,16 +35,15 @@ class Form extends Component {
 
     if (validInputs) {
       this.sendData(validInputs)
+        .then(res => {
+          console.log('res: ', res)
+          setCookie('login_jwt', res.token, 1)
+          setCookie('userName', res.user.userName, 1)
+          /*
+            Need to pass a prop to form that executes upon successful submission and change board state to logged in.
+          */
+        })
     }
-
-
-    /*
-        - validate inputs
-        - check if user name is taken
-        - submit to createUser route OR check DB for password / username match
-        - set a cookie to keep user logged in
-    */
-
 
   }
 
@@ -58,12 +58,9 @@ class Form extends Component {
     }
     const req = await fetch(route, reqObj)
     const res = await req.json()
+    res.token = req.headers.get('token')
 
     return res
-  }
-
-  checkValidExistingCredentials () {
-
   }
 
   validateInputs () {

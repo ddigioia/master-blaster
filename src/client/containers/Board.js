@@ -260,6 +260,7 @@ class Board extends Component {
           style={{display: (board.gameState === "loggingIn" ? "block" : "none")}}
           handleBack={this.handleBack}
           className="form-container login-form"
+          // onSuccess={this.handleSuccessfulLogin}
         />
         <Stage
           width={screen.width()}
