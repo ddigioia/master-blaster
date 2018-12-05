@@ -11,7 +11,7 @@ import PowerUp from '../components/PowerUp'
 import ScoreBoard from '../components/ScoreBoard'
 import Button from '../components/Button'
 import Form from './Form'
-import { screen, randomNumInRange } from '../helpers'
+import { screen, randomNumInRange, deleteCookie } from '../helpers'
 import * as constants from '../constants'
 import {
   start,
@@ -141,13 +141,13 @@ class Board extends Component {
   }
 
   handleLogin () {
-    console.log('logging in')
     this.props.loggingIn()
   }
 
   handleLogout () {
-    console.log('logging out')
     this.props.loggedOut()
+    deleteCookie('login_jwt')
+    deleteCookie('userName')
   }
 
   handleBack () {

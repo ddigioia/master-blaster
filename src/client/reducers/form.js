@@ -39,6 +39,11 @@ function form (state = initForm, action) {
       return updateObj(state, {
         [action.name]: action.value
       })
+    case constants.ERASE_FORM:
+      return updateObj(state, {
+        name: '',
+        password: ''
+      })
     case constants.NAME_INVALID:
       return updateObj(state, {
         nameInvalid: true
