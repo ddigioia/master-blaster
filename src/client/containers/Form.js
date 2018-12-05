@@ -17,6 +17,7 @@ import {
   loggedIn,
   hideErrors,
   loggedOut,
+  eraseForm,
   pause
 } from '../actions'
 
@@ -41,6 +42,7 @@ class Form extends Component {
           setCookie('userName', res.user.userName, 1)
           this.props.loggedIn() // changes user state
           this.props.pause() // reverts back to main menu
+          this.props.eraseForm()
         })
     }
   }
@@ -109,7 +111,7 @@ class Form extends Component {
         />
         <Button
           handleClick={this.props.signUpSelected}
-          className={form.signingUp ? "btn signup-opt-btn opt-btn-active"  : "btn signup-opt-btn"}
+          className={form.signUpSelected ? "btn signup-opt-btn opt-btn-active"  : "btn signup-opt-btn"}
           title="Sign Up"
           type="button"
         />
@@ -185,6 +187,7 @@ const mapDispatchToProps = dispatch => {
     handleInput: (name, value) => dispatch(handleInput(name, value)),
     loggedIn: (name) => dispatch(loggedIn(name)),
     loggedOut: () => dispatch(loggedOut()),
+    eraseForm: () => dispatch(eraseForm()),
     pause: () => dispatch(pause())
   }
 }

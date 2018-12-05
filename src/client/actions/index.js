@@ -98,6 +98,12 @@ export function hideErrors () {
   }
 }
 
+export function eraseForm () {
+  return {
+    type: constants.ERASE_FORM
+  }
+}
+
 export function loginSelected () {
   return {
     type: constants.LOGIN_SELECTED
