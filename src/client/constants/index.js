@@ -69,6 +69,18 @@ export const UPDATE = 'UPDATE'
 export const HIT_TEST = 'HIT_TEST'
 export const GAME_OVER = 'GAME_OVER'
 export const PAUSE = 'PAUSE'
+export const HIDE_ERRORS = 'HIDE_ERRORS'
+export const LOGIN_SELECTED = 'LOGIN_SELECTED'
+export const SIGNUP_SELECTED = 'SIGNUP_SELECTED'
+export const HANDLE_INPUT = 'HANDLE_INPUT'
+export const NAME_INVALID = 'NAME_INVALID'
+export const PASSWORD_INVALID = 'PASSWORD_INVALID'
+export const NAME_TAKEN = 'NAME_TAKEN'
+export const INVALID_CREDENTIALS = 'INVALID_CREDENTIALS'
+export const VALIDATED = 'VALIDATED'
+export const LOGGED_IN = 'LOGGED_IN'
+export const LOGGED_OUT = 'LOGGED_OUT'
+export const NEW_HIGH_SCORE = 'NEW_HIGH_SCORE'
 
 /**
  * Game state constants

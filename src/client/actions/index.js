@@ -91,6 +91,83 @@ export function loggingIn () {
   }
 }
 
+// Form actions
+export function hideErrors () {
+  return {
+    type: constants.HIDE_ERRORS
+  }
+}
+
+export function loginSelected () {
+  return {
+    type: constants.LOGIN_SELECTED
+  }
+}
+
+export function signUpSelected () {
+  return {
+    type: constants.SIGNUP_SELECTED
+  }
+}
+
+export function handleInput (name, value) {
+  return {
+    type: constants.HANDLE_INPUT,
+    name,
+    value
+  }
+}
+
+export function nameTaken () {
+  return {
+    type: constants.NAME_TAKEN
+  }
+}
+
+export function nameInvalid () {
+  return {
+    type: constants.NAME_INVALID
+  }
+}
+
+export function passwordInvalid () {
+  return {
+    type: constants.PASSWORD_INVALID
+  }
+}
+
+export function invalidCredentials () {
+  return {
+    type: constants.INVALID_CREDENTIALS
+  }
+}
+
+export function validated () {
+  return {
+    type: constants.VALIDATED
+  }
+}
+
+export function loggedIn (userName) {
+  return {
+    type: constants.LOGGED_IN,
+    userName
+  }
+}
+
+export function loggedOut () {
+  return {
+    type: constants.LOGGED_OUT
+  }
+}
+
+export function newHighScore (highScore) {
+  return {
+    type: constants.NEW_HIGH_SCORE,
+    highScore
+  }
+}
+
 export function createAsteroids (asteroidCount) {
   return {
     type: constants.CREATE_ASTEROIDS,

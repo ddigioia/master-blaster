@@ -7,7 +7,9 @@ import { getCookie } from '../helpers'
 class App extends Component {
   constructor (props) {
     super()
-    this.state = {}
+    this.state = {
+      loggedIn: false
+    }
   }
 
   async getUsers () {
@@ -23,34 +25,43 @@ class App extends Component {
   async getUser () {
     const token = getCookie('login_jwt')
     const name = getCookie('userName')
-    const options = {
-      method: 'GET',
-      headers: new Headers({ token })
-    }
-
+    
     if (token && name) {
       // if token is still valid, get user info
-      // const req = await fetch(`/users?${name}&${token}`)
+      const options = {
+        method: 'GET',
+        headers: new Headers({ token })
+      }
+
       const req = await fetch(`/users/${name}`, options)
       const res = await req.json()
 
       if (req.status !== 200) throw Error(res.message)
-      console.log('res: ', res)
+
       return res
     }
   }
 
   componentDidMount () {
     // grab any data needed for start of app
-    this.getUser()
+    this.getUser().then(res => {
+      if (res && res.user) {
+        // user is logged in
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            loggedIn: true
+          }
+        })
+      }
+    })
     this.getUsers()
-    console.log('app mounted')
   }
 
   render () {
     return (
       <div className='App'>
-        <Board />
+        <Board loggedIn={this.state.loggedIn}/>
       </div>
     )
   }

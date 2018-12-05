@@ -1,31 +1,31 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Input from '../components/Input'
 import InputError from '../components/InputError'
 import Button from '../components/Button'
 import '../styles/Form.css'
 import { setCookie, getCookie } from '../helpers'
+import {
+  loginSelected,
+  signUpSelected,
+  nameInvalid,
+  passwordInvalid,
+  nameTaken,
+  invalidCredentials,
+  handleInput,
+  validated,
+  loggedIn,
+  hideErrors,
+  loggedOut,
+  pause
+} from '../actions'
 
 class Form extends Component {
   constructor (props) {
     super(props)
   
-    this.state = {
-      name: '',
-      password: '',
-      logginIn: true,
-      signingUp: false,
-      nameInvalid: false,
-      passwordInvalid: false,
-      nameTaken: false,
-      invalidExistingCredentials: false,
-      validated: false
-    }
-
     this.handleInput = this.handleInput.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
-    this.signUpSelected = this.signUpSelected.bind(this)
-    this.loginSelected = this.loginSelected.bind(this)
-    this.hideErrors = this.hideErrors.bind(this)
   }
 
   handleFormSubmit (event) {
@@ -39,20 +39,18 @@ class Form extends Component {
           console.log('res: ', res)
           setCookie('login_jwt', res.token, 1)
           setCookie('userName', res.user.userName, 1)
-          /*
-            Need to pass a prop to form that executes upon successful submission and change board state to logged in.
-          */
+          this.props.loggedIn() // changes user state
+          this.props.pause() // reverts back to main menu
         })
     }
-
   }
 
-  async sendData (user) {
-    const route = this.state.logginIn ? '/users/login' : '/users'
+  async sendData (input) {
+    const route = this.props.form.loginSelected ? '/users/login' : '/users'
     const reqObj = {
       method: 'POST',
-      body: JSON.stringify(user),
-      headers:{
+      body: JSON.stringify(input),
+      headers: {
         'Content-Type': 'application/json'
       }
     }
@@ -73,100 +71,51 @@ class Form extends Component {
 
     // validate name
     if (name.length === 0) {
-      this.setState(prevState => {
-        return {
-          ...prevState,
-          nameInvalid: true
-        }
-      })
+      this.props.nameInvalid()
       valid = false
     }
     
     // validate password
     if (passwordRegex.test(password) === false) {
-      this.setState(prevState => {
-        return {
-          ...prevState,
-          passwordInvalid: true
-        }
-      })
+      this.props.passwordInvalid()
       valid = false
     }
 
     return valid
   }
 
-  hideErrors () {
-    // hide error messages on input focus
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        nameInvalid: false,
-        passwordInvalid: false,
-        nameTaken: false,
-        invalidExistingCredentials: false
-      }
-    })
-  }
-
-  loginSelected () {
-    this.hideErrors()
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        logginIn: true,
-        signingUp: false
-      }
-    })
-  }
-
-  signUpSelected () {
-    this.hideErrors()
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        logginIn: false,
-        signingUp: true
-      }
-    })
-  }
-
   handleInput (event) {
     const name = event.target.name
     const value = event.target.value
 
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        [name]: value
-      }
-    })
+    this.props.handleInput(name, value)
   }
 
   render () {
+    let { form, user } = this.props
+
     return (
       <form
         ref={form => this.formEl = form}
         className={this.props.className}
         onSubmit={this.handleFormSubmit}
         style={this.props.style}
-        // onClick={this.hideErrors}
       >
         <Button
-          handleClick={this.loginSelected}
-          className={this.state.logginIn ? "btn login-opt-btn opt-btn-active" : "btn login-opt-btn"}
+          handleClick={this.props.loginSelected}
+          className={form.loginSelected ? "btn login-opt-btn opt-btn-active" : "btn login-opt-btn"}
           title="Login"
           type="button"
         />
         <Button
-          handleClick={this.signUpSelected}
-          className={this.state.signingUp ? "btn signup-opt-btn opt-btn-active"  : "btn signup-opt-btn"}
+          handleClick={this.props.signUpSelected}
+          className={form.signingUp ? "btn signup-opt-btn opt-btn-active"  : "btn signup-opt-btn"}
           title="Sign Up"
           type="button"
         />
         <InputError
           className="input-error invalid-credentials"
-          style={{visibility: (this.state.logginIn && this.state.invalidExistingCredentials) ? "visible" : "hidden"}}
+          style={{visibility: (form.loginSelected && form.invalidCredentials) ? "visible" : "hidden"}}
           text="Name and password do not match."
         />
         <Input
@@ -174,29 +123,29 @@ class Form extends Component {
           title="Name"
           name="name"
           placeholder="Name"
-          value={this.state.name}
+          value={form.name}
           handleChange={this.handleInput}
-          onFocus={this.hideErrors}
+          onFocus={this.props.hideErrors}
           // required={true}
         />
         <InputError
           className="input-error invalid-name"
-          style={{visibility: (this.state.nameInvalid || this.state.nameTaken) ? "visible" : "hidden"}}
-          text={this.state.nameInvalid ? "Please include valid name." : "Username already taken."}
+          style={{visibility: (form.nameInvalid || form.nameTaken) ? "visible" : "hidden"}}
+          text={form.nameInvalid ? "Please include valid name." : "Username already taken."}
         />
         <Input
           type="password"
           title="Password"
           name="password"
           placeholder="Password"
-          value={this.state.password}
+          value={form.password}
           handleChange={this.handleInput}
-          onFocus={this.hideErrors}
+          onFocus={this.props.hideErrors}
           // required={true}
         />
         <InputError
           className="input-error invalid-password"
-          style={{visibility: this.state.passwordInvalid ? "visible" : "hidden"}}
+          style={{visibility: form.passwordInvalid ? "visible" : "hidden"}}
           text="Please include valid password."
         />
         <Button
@@ -206,7 +155,7 @@ class Form extends Component {
           type="submit"
         />
         <Button
-          handleClick={this.props.handleBack}
+          handleClick={this.props.pause}
           className="btn back-btn"
           title="Back"
           type="button"
@@ -216,4 +165,31 @@ class Form extends Component {
   }
 }
 
-export default Form
+const mapStateToProps = state => {
+  return {
+    form: state.form,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    hideErrors: () => dispatch(hideErrors()),
+    loginSelected: () => dispatch(loginSelected()),
+    signUpSelected: () => dispatch(signUpSelected()),
+    nameInvalid: () => dispatch(nameInvalid()),
+    passwordInvalid: () => dispatch(passwordInvalid()),
+    nameTaken: () => dispatch(nameTaken()),
+    invalidCredentials: () => dispatch(invalidCredentials()),
+    validated: () => dispatch(validated()),
+    handleInput: (name, value) => dispatch(handleInput(name, value)),
+    loggedIn: (name) => dispatch(loggedIn(name)),
+    loggedOut: () => dispatch(loggedOut()),
+    pause: () => dispatch(pause())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form)
