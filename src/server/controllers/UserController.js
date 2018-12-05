@@ -100,11 +100,11 @@ function createUser (req, res, next) {
   }
 
   insertUser(user)
-    .then(({userName, userId}) => {
+    .then(userId => {
       res
         .status(200)
         .set('token', token)
-        .json({userName, userId, message: 'Successful sign up!'})
+        .json({user, userId: userId[0], message: 'Successful sign up!'})
     })
     .catch(err => {
       next(err)
