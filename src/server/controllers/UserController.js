@@ -120,7 +120,6 @@ function loginUser (req, res, next) {
     return res.status(200).json({ errors: errors.array() })
   }
 
-
   const {
     body: {
       userName
@@ -168,14 +167,13 @@ router.get('/:userName', (req, res, next) => {
 
   // verify jwt token on these requests
   const verified = jwt.verify(token, {subject: userName})
-  console.log('=====VERIFIED=====: ', verified)
 
   if (verified) {
     getUserByName(userName)
       .then(user => {
         res
           .status(200)
-          .json({message: `User name:\n${user[0].userName}`})
+          .json({user: user[0], message: 'Success'})
       })
       .catch(err => {
         next(err)

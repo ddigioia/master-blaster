@@ -16,6 +16,7 @@ import * as constants from '../constants'
 import {
   start,
   loggingIn,
+  loggedOut,
   rotateLeft,
   rotateRight,
   stopRotation,
@@ -40,6 +41,7 @@ class Board extends Component {
     this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleStart = this.handleStart.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
     this.handleBack = this.handleBack.bind(this)
     this.started = false
     this.asteroidIntervalId = 0
@@ -139,13 +141,13 @@ class Board extends Component {
   }
 
   handleLogin () {
-    /*
-      start login process
-
-      1) render form component
-      2) 
-    */
+    console.log('logging in')
     this.props.loggingIn()
+  }
+
+  handleLogout () {
+    console.log('logging out')
+    this.props.loggedOut()
   }
 
   handleBack () {
@@ -215,7 +217,8 @@ class Board extends Component {
       debris,
       scoreBoard,
       board,
-      powerUp
+      powerUp,
+      user
     } = this.props
 
     return (
@@ -252,12 +255,12 @@ class Board extends Component {
         />
         <Button
           className="btn login-btn"
-          style={{display: ((board.gameState === "paused" || board.gameState === "gameOver") && board.gameState !== "loggedIn") ? "block" : "none"}}
-          handleClick={this.handleLogin}
-          title="Login"
+          style={{display: ((board.gameState === "paused" || board.gameState === "gameOver")) ? "block" : "none"}}
+          handleClick={user.loggedIn ? this.handleLogout : this.handleLogin}
+          title={user.loggedIn ? "Logout" : "Login"}
         />
         <Form
-          style={{display: (board.gameState === "loggingIn" ? "block" : "none")}}
+          style={{display: (board.gameState === "loggingIn" && user.loggedIn === false ? "block" : "none")}}
           handleBack={this.handleBack}
           className="form-container login-form"
           // onSuccess={this.handleSuccessfulLogin}
@@ -296,7 +299,8 @@ const mapStateToProps = state => {
     debris: state.debris,
     scoreBoard: state.scoreBoard,
     board: state.board,
-    powerUp: state.powerUp
+    powerUp: state.powerUp,
+    user: state.user
   }
 }
 
@@ -304,6 +308,7 @@ const mapDispatchToProps = dispatch => {
   return {
     start: () => dispatch(start()),
     loggingIn: () => dispatch(loggingIn()),
+    loggedOut: () => dispatch(loggedOut()),
     rotateLeft: () => dispatch(rotateLeft()),
     rotateRight: () => dispatch(rotateRight()),
     stopRotation: () => dispatch(stopRotation()),

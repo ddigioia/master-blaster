@@ -6,6 +6,8 @@ import debris from './debris'
 import scoreBoard from './scoreBoard'
 import board from './board'
 import powerUp from './powerUp'
+import user from './user'
+import form from './form'
 
 export default combineReducers({
   ship,
@@ -14,5 +16,7 @@ export default combineReducers({
   debris,
   scoreBoard,
   board,
-  powerUp
+  powerUp,
+  user,
+  form
 })
