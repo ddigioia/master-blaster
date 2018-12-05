@@ -6,7 +6,6 @@ const expressValidator = require('express-validator')
 const app = express()
 const port = process.env.PORT || 5000
 
-console.log('starting server')
 // allows env variables to be pulled through
 // needs to be required before use
 require('dotenv').config()
@@ -19,7 +18,10 @@ app.use(expressValidator())
 
 // pull in controllers
 const UserController = require('./controllers/UserController')
+const ScoreController = require('./controllers/ScoreController')
+
 app.use('/users', UserController)
+app.use('/scores', ScoreController)
 
 // serve static files from the build folder
 if (process.env.NODE_ENV === 'production') {

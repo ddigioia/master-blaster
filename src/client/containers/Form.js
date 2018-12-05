@@ -37,12 +37,20 @@ class Form extends Component {
     if (validInputs) {
       this.sendData(validInputs)
         .then(res => {
-          console.log('res: ', res)
-          setCookie('login_jwt', res.token, 1)
-          setCookie('userName', res.user.userName, 1)
-          this.props.loggedIn() // changes user state
-          this.props.pause() // reverts back to main menu
-          this.props.eraseForm()
+          // invalid
+          if (res.errors) {
+            this.props.nameTaken()
+            return
+          }
+
+          // valid
+          if (res.user) {
+            setCookie('login_jwt', res.token, 1)
+            setCookie('userName', res.user.userName, 1)
+            this.props.loggedIn() // changes user state
+            this.props.pause() // reverts back to main menu
+            this.props.eraseForm()
+          }
         })
     }
   }
@@ -133,7 +141,7 @@ class Form extends Component {
         <InputError
           className="input-error invalid-name"
           style={{visibility: (form.nameInvalid || form.nameTaken) ? "visible" : "hidden"}}
-          text={form.nameInvalid ? "Please include valid name." : "Username already taken."}
+          text={form.nameInvalid ? "Please include valid name." : "User name already in use."}
         />
         <Input
           type="password"
