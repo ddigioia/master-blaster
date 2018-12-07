@@ -4,7 +4,7 @@ import Input from '../components/Input'
 import InputError from '../components/InputError'
 import Button from '../components/Button'
 import '../styles/Form.css'
-import { setCookie, getCookie } from '../helpers'
+import { setCookie } from '../helpers'
 import {
   loginSelected,
   signUpSelected,
@@ -42,12 +42,14 @@ class Form extends Component {
             this.props.nameTaken()
             return
           }
+          const { token, user } = res
 
           // valid
-          if (res.user) {
-            setCookie('login_jwt', res.token, 1)
-            setCookie('userName', res.user.userName, 1)
-            this.props.loggedIn() // changes user state
+          if (user) {
+            setCookie('login_jwt', token, 1)
+            setCookie('userName', user.userName, 1)
+            setCookie('userId', user.userId, 1)
+            this.props.loggedIn(user) // changes user state
             this.props.pause() // reverts back to main menu
             this.props.eraseForm()
           }
@@ -102,7 +104,7 @@ class Form extends Component {
   }
 
   render () {
-    let { form, user } = this.props
+    let { form } = this.props
 
     return (
       <form
@@ -177,8 +179,7 @@ class Form extends Component {
 
 const mapStateToProps = state => {
   return {
-    form: state.form,
-    user: state.user
+    form: state.form
   }
 }
 
@@ -193,7 +194,7 @@ const mapDispatchToProps = dispatch => {
     invalidCredentials: () => dispatch(invalidCredentials()),
     validated: () => dispatch(validated()),
     handleInput: (name, value) => dispatch(handleInput(name, value)),
-    loggedIn: (name) => dispatch(loggedIn(name)),
+    loggedIn: (user) => dispatch(loggedIn(user)),
     loggedOut: () => dispatch(loggedOut()),
     eraseForm: () => dispatch(eraseForm()),
     pause: () => dispatch(pause())

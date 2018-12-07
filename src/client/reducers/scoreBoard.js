@@ -7,11 +7,11 @@ let initScoreBoard = {
 }
 
 function getTopScore () {
-  return Number(window.localStorage.getItem('masterBlasterTopScore'))
+  return Number(window.sessionStorage.getItem('masterBlasterTopScore'))
 }
 
 function setTopScore (topScore) {
-  return window.localStorage.setItem('masterBlasterTopScore', topScore)
+  return window.sessionStorage.setItem('masterBlasterTopScore', topScore)
 }
 
 function scoreBoard (state = initScoreBoard, action) {
