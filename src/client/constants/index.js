@@ -81,6 +81,7 @@ export const VALIDATED = 'VALIDATED'
 export const LOGGED_IN = 'LOGGED_IN'
 export const LOGGED_OUT = 'LOGGED_OUT'
 export const NEW_HIGH_SCORE = 'NEW_HIGH_SCORE'
+export const SET_HIGH_SCORE = 'SET_HIGH_SCORE'
 export const ERASE_FORM = 'ERASE_FORM'
 
 /**

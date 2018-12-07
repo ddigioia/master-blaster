@@ -1,5 +1,5 @@
 import * as constants from '../constants'
-import { hitTest, updateObj } from '../helpers'
+import { hitTest, updateObj, getCookie } from '../helpers'
 
 export function start () {
   return {
@@ -154,10 +154,10 @@ export function validated () {
   }
 }
 
-export function loggedIn (userName) {
+export function loggedIn (user) {
   return {
     type: constants.LOGGED_IN,
-    userName
+    user
   }
 }
 
@@ -168,9 +168,66 @@ export function loggedOut () {
 }
 
 export function newHighScore (highScore) {
+  return (dispatch, getState) => {
+    let {
+      user
+    } = getState()
+
+    // hit api to set new high score for user
+    const { userName, userId, loggedIn } = user
+    const token = getCookie('login_jwt')
+
+    if (userId && token && loggedIn) {
+      const body = {
+        userName,
+        userId,
+        value: highScore
+      }
+
+      sendHighScoreReq(body)
+    }
+
+    dispatch(setHighScore(highScore))
+  }
+}
+
+async function sendHighScoreReq (body) {
+  const reqObj = {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  const route = '/scores'
+  const req = await fetch(route, reqObj)
+  const res = await req.json()
+  res.token = req.headers.get('token')
+
+  return res
+}
+
+// Have to authenticate and send user data to update route in User controller
+// async function sendHighScoreReqUser (body) {
+//   const reqObj = {
+//     method: 'POST',
+//     body: JSON.stringify(body),
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   }
+//   const route = '/user'
+//   const req = await fetch(route, reqObj)
+//   const res = await req.json()
+//   res.token = req.headers.get('token')
+
+//   return res
+// }
+
+export function setHighScore (userHighScore) {
   return {
-    type: constants.NEW_HIGH_SCORE,
-    highScore
+    type: constants.SET_HIGH_SCORE,
+    userHighScore
   }
 }
 
@@ -293,7 +350,8 @@ export function shipHitTest () {
   return (dispatch, getState) => {
     let {
       ship,
-      asteroid
+      asteroid,
+      scoreBoard
     } = getState()
     let {
       radius,
@@ -316,6 +374,10 @@ export function shipHitTest () {
 
       if (isHit) {
         dispatch(gameOver(s))
+
+        if (scoreBoard.currentScore >= scoreBoard.topScore) { // should this be user instead?
+          dispatch(newHighScore(scoreBoard.currentScore))
+        }
         break
       }
     }

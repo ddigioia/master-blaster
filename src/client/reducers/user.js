@@ -5,30 +5,40 @@ import {
 
 const initUser = {
   userName: '',
+  userId: '',
   loggedIn: false,
-  highScore: 0
+  userHighScore: 0,
+  currentScore: 0
 }
 
 function user (state = initUser, action) {
   switch (action.type) {
     case constants.LOGGED_IN:
-      const { userName } = action
+      const {
+        user: {
+          userName,
+          userId,
+          userHighScore
+        }
+      } = action
 
       return updateObj(state, {
         loggedIn: true,
-        userName
+        userName,
+        userId,
+        userHighScore
       })
     case constants.LOGGED_OUT:
       return updateObj(state, {
         loggedIn: false,
         userName: '',
-        highScore: 0
+        userId: '',
+        userHighScore: 0,
+        currentScore: 0
       })
-    case constants.NEW_HIGH_SCORE:
-      const { highScore } = action
-
+    case constants.SET_HIGH_SCORE:
       return updateObj(state, {
-        highScore
+        userHighScore: action.userHighScore
       })
     default:
       return state

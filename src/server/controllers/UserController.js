@@ -96,7 +96,8 @@ function createUser (req, res, next) {
 
   const user = {
     userName: userName,
-    userPassword: userPassword
+    userPassword: userPassword,
+    userHighScore: 0
   }
 
   insertUser(user)
@@ -104,7 +105,16 @@ function createUser (req, res, next) {
       res
         .status(200)
         .set('token', token)
-        .json({user, userId: userId[0], message: 'Successful sign up!'})
+        .json(
+          {
+            user: {
+              userId: userId[0],
+              userName,
+              userHighScore: 0
+            },
+            message: 'Successful sign up!'
+          }
+        )
     })
     .catch(err => {
       next(err)
@@ -129,14 +139,23 @@ function loginUser (req, res, next) {
   // jwt authentication
   const token = jwt.sign({userName}, {subject: userName})
 
-  const user = {
-    userName: userName
-  }
-
-  return res
-          .status(200)
-          .set('token', token)
-          .json({user, message: 'Successful login!'})
+  getUserByName(userName)
+    .then(user => {
+      const { userName, userId, userHighScore } = user[0]
+      res
+        .status(200)
+        .set('token', token)
+        .json(
+          {
+            user: {
+              userName,
+              userId,
+              userHighScore
+            },
+            message: 'Successful login!'
+          }
+        )
+    })
 }
 
 // routes

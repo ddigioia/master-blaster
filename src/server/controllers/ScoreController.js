@@ -14,11 +14,7 @@ function insertScore (score) {
   return knex('scores').insert(score)
 }
 
-function getScores () {
-  return knex.select().from('scores')
-}
-
-function getHighScores () {
+function fetchHighScores () {
   return knex
           .select()
           .from('scores')
@@ -26,13 +22,13 @@ function getHighScores () {
           .limit(10)
 }
 
-function getScore (id) {
+function fetchScore (id) {
   return knex('scores')
           .where('scoreId', id)
           .select()
 }
 
-function getScoreByUserName (name) {
+function fetchScoreByUserName (name) {
   return knex('scores')
           .where('userName', name)
           .select()
@@ -44,8 +40,49 @@ function validate (method) {
     case 'createScore':
       return [
         body('value', 'score doesn\'t exist.').exists(),
-        body('userName', 'user name doesn\'t exist.').exists()
+        body('userName', 'user name doesn\'t exist.').exists(),
+        body('userId', 'user id doesn\'t exist.').exists()
       ]
+  }
+}
+
+function getHighScores (req, res, next) {
+  fetchHighScores()
+    .then(scores => {
+      res
+        .status(200)
+        .json(scores)
+    })
+    .catch(err => {
+      next(err)
+    })
+}
+
+function getUserScore (req, res, next) {
+  const {
+    params: {
+      userName
+    },
+    headers: {
+      token
+    }
+  } = req
+
+  // verify jwt token on these requests
+  const verified = jwt.verify(token, {subject: userName})
+
+  if (verified) {
+    getScoreByUserName(userName)
+      .then(score => {
+        res
+          .status(200)
+          .json({score, message: 'Success'})
+      })
+      .catch(err => {
+        next(err)
+      })
+  } else {
+    res.status(200).json({message: 'Error. Not authorized.'})
   }
 }
 
@@ -87,49 +124,13 @@ function createScore (req, res, next) {
     })
 }
 
-// routes
+// ===== routes ===== //
 
 // returns high scores
-router.get('/', (req, res, next) => {
-  getHighScores()
-    .then(scores => {
-      res
-        .status(200)
-        .json(scores)
-    })
-    .catch(err => {
-      next(err)
-    })
-})
+router.get('/', getHighScores)
 
 // returns a single user's score
-router.get('/:userName', (req, res, next) => {
-  const {
-    params: {
-      userName
-    },
-    headers: {
-      token
-    }
-  } = req
-
-  // verify jwt token on these requests
-  const verified = jwt.verify(token, {subject: userName})
-
-  if (verified) {
-    getScoreByUserName(userName)
-      .then(score => {
-        res
-          .status(200)
-          .json({score, message: 'Success'})
-      })
-      .catch(err => {
-        next(err)
-      })
-  } else {
-    res.status(200).json({message: 'Error. Not authorized.'})
-  }
-})
+router.get('/:userName', getUserScore)
 
 // creates a score
 router.post('/', validate('createScore'), createScore)
