@@ -14,7 +14,7 @@
     "mysql": "^2.16.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-konva": "^1.7.16",
+    "react-konva": "^16.6.31",
     "react-redux": "^5.1.1",
     "react-scripts": "1.1.4",
     "redux": "^4.0.1",
