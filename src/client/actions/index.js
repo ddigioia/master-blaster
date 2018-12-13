@@ -185,6 +185,7 @@ export function newHighScore (highScore) {
       }
 
       sendHighScoreReq(body)
+      sendHighScoreReqUser(body, token)
     }
 
     dispatch(setHighScore(highScore))
@@ -208,21 +209,23 @@ async function sendHighScoreReq (body) {
 }
 
 // Have to authenticate and send user data to update route in User controller
-// async function sendHighScoreReqUser (body) {
-//   const reqObj = {
-//     method: 'POST',
-//     body: JSON.stringify(body),
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   }
-//   const route = '/user'
-//   const req = await fetch(route, reqObj)
-//   const res = await req.json()
-//   res.token = req.headers.get('token')
+async function sendHighScoreReqUser (body, token) {
+  const {userName, value: userHighScore} = body
+  const reqObj = {
+    method: 'PUT',
+    body: JSON.stringify({userHighScore}),
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      token
+    })
+  }
+  const route = `/users/${userName}`
+  const req = await fetch(route, reqObj)
+  const res = await req.json()
+  res.token = req.headers.get('token')
 
-//   return res
-// }
+  return res
+}
 
 export function setHighScore (userHighScore) {
   return {
@@ -358,7 +361,8 @@ export function shipHitTest () {
     let {
       ship,
       asteroid,
-      scoreBoard
+      scoreBoard,
+      user
     } = getState()
     let {
       radius,
@@ -382,7 +386,10 @@ export function shipHitTest () {
       if (isHit) {
         dispatch(gameOver(s))
 
-        if (scoreBoard.currentScore >= scoreBoard.highScore) { // should this be user instead?
+        // if (scoreBoard.currentScore >= scoreBoard.highScore) { // should this be user instead?
+        //  this should check to see if it's higher than the lowest (10th) high score,
+        //  if not then don't call new highScore, just sendHighScoreReqUser
+        if (scoreBoard.currentScore >= user.userHighScore) { // should this be user instead?
           dispatch(newHighScore(scoreBoard.currentScore))
         }
         break

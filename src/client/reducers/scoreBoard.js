@@ -17,10 +17,12 @@ function setHighScore (highScore) {
 
 function scoreBoard (state = initScoreBoard, action) {
   let {currentScore, highScore} = state
-
+  
   switch (action.type) {
     case constants.START:
-      return updateObj(state, initScoreBoard)
+      const startObj = updateObj(initScoreBoard, {highScores: state.highScores})
+
+      return updateObj(state, startObj)
     case constants.SET_HIGH_SCORES:
       const { highScores } = action
 

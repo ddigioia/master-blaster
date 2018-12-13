@@ -22,6 +22,12 @@ function getUsers () {
   return knex.select().from('users')
 }
 
+function updateUserScore (name, userHighScore) {
+  return knex('users')
+          .where('userName', name)
+          .update({ userHighScore })
+}
+
 function getUser (id) {
   return knex('users')
           .where('userId', id)
@@ -57,14 +63,24 @@ function validate (method) {
           return getUserByName(name).then(user => {
             const bodyPassword = req.body.userPassword
 
+            // user exists and passwords match
             if (user && user[0] && user[0].userPassword === bodyPassword) {
-              console.log('user: ', user)
               return Promise.resolve(user)
             }
 
-            return Promise.reject('User name and password do not match.')
+            // user exists and passwords do not match
+            if (user && user[0]) {
+              Promise.reject('User name and password do not match.')
+            }
+
+            // user does not exist
+            return Promise.reject('User does not exist')
           })
         })
+      ]
+    case 'updateUser':
+      return [
+
       ]
   }
 }
@@ -158,10 +174,7 @@ function loginUser (req, res, next) {
     })
 }
 
-// routes
-
-// returns all users
-router.get('/', (req, res, next) => {
+function getAllUsers (req, res, next) {
   getUsers()
     .then(users => {
       res
@@ -171,10 +184,9 @@ router.get('/', (req, res, next) => {
     .catch(err => {
       next(err)
     })
-})
+}
 
-// returns a single user
-router.get('/:userName', (req, res, next) => {
+function getSingleUser (req, res, next) {
   const {
     params: {
       userName
@@ -200,13 +212,56 @@ router.get('/:userName', (req, res, next) => {
   } else {
     res.status(200).json({message: 'Error. Not authorized.'})
   }
+}
 
-})
+function updateUser (req, res, next) {
+  const {
+    params: {
+      userName
+    },
+    body: {
+      userHighScore
+    },
+    headers: {
+      token
+    }
+  } = req
+
+  console.log('token: ', token)
+
+  // verify jwt token on these requests
+  const verified = jwt.verify(token, {subject: userName})
+
+  if (verified) {
+    updateUserScore(userName, userHighScore)
+      .then(() => {
+        res
+          .status(200)
+          .json({message: 'Successfully updated user high score'})
+      })
+      .catch(err => {
+        next(err)
+      })
+  } else {
+    res.status(200).json({message: 'Error updating user high score'})
+  }
+}
+
+// routes
+
+// returns all users
+router.get('/', getAllUsers)
+
+// returns a single user
+router.get('/:userName', getSingleUser)
 
 // creates a user
 router.post('/', validate('createUser'), createUser)
 
 // logs in a user
 router.post('/login', validate('loginUser'), loginUser)
+
+// update a user
+router.put('/:userName', validate('updateUser'), updateUser)
 
 module.exports = router

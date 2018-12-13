@@ -39,7 +39,10 @@ class Form extends Component {
         .then(res => {
           // invalid
           if (res.errors) {
-            this.props.nameTaken()
+            // this needs to account for login error - username password don't match
+            if (this.props.form.loginSelected) this.props.invalidCredentials()
+            if (this.props.form.signUpSelected) this.props.nameTaken()
+
             return
           }
           const { token, user } = res

@@ -20,13 +20,13 @@ class ScoreBoard extends Component {
   }
 
   render () {
-    const { currentScore, highScore, highScores } = this.props
+    const { currentScore, highScore, highScores, gameState } = this.props
 
     return (
       <div className='score-con'>
         <span className='score current-score'>Score: {currentScore}</span>
         <span className='score top-score'>High Score: {highScore}</span>
-        <div className='scoreboard-con'>
+        <div className='scoreboard-con' style={{display: (gameState === "paused" || gameState === "gameOver") ? "block" : "none"}}>
           <div className='scoreboard-header'>
             <span className='scoreboard-user'>User</span>
             <span className='scoreboard-score'>Score</span>

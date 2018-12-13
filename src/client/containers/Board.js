@@ -230,6 +230,7 @@ class Board extends Component {
       >
         <div className="board-header">
           <ScoreBoard
+            gameState={board.gameState}
             currentScore={scoreBoard.currentScore}
             // highScore={scoreBoard.highScore}
             highScore={user.userHighScore}
