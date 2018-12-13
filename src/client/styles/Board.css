@@ -22,6 +22,43 @@
   float: right;
 }
 
+.scoreboard-con {
+  position: absolute;
+  right: 10px;
+  top: 80px;
+  border: 3px solid white;
+  width: 300px;
+}
+.scoreboard-con li {
+  list-style: none;
+}
+
+.scoreboard-con ul {
+  padding: 0;
+  margin: 0;
+}
+
+.scoreboard-con .scoreboard-header {
+  border-bottom: 3px solid white;
+}
+
+.scoreboard-con .scoreboard-header span {
+  display: inline-block;
+}
+
+.scoreboard-con .scoreboard-user {
+  width: 60%;
+  display: inline-block;
+  line-height: 33px;
+}
+
+.scoreboard-con .scoreboard-score {
+  width: calc(40% - 3px);
+  display: inline-block;
+  line-height: 33px;
+  border-left: 3px solid white;
+}
+
 .controls {
   line-height: 24px;
 }

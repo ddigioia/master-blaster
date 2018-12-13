@@ -233,6 +233,7 @@ class Board extends Component {
             currentScore={scoreBoard.currentScore}
             // highScore={scoreBoard.highScore}
             highScore={user.userHighScore}
+            highScores={scoreBoard.highScores}
           />
           <span
             className="controls"
