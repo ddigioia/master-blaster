@@ -16,7 +16,7 @@ function insertScore (score) {
 
 function fetchHighScores () {
   return knex
-          .select()
+          .select('userName', 'value')
           .from('scores')
           .orderBy('value', 'desc')
           .limit(10)

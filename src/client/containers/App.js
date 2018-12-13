@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import '../styles/App.css'
 import Board from './Board'
 import { getCookie } from '../helpers'
-import { loggedIn } from '../actions'
+import { loggedIn, setHighScores } from '../actions'
 
 class App extends Component {
   constructor (props) {
@@ -40,6 +40,7 @@ class App extends Component {
 
       if (req.status !== 200) throw Error(res.message)
 
+      console.log('user: ', res)
       return res
     }
   }
@@ -47,7 +48,7 @@ class App extends Component {
   componentDidMount () {
     // grab any data needed for start of app
     this.getUser().then(res => {
-      const { user } = res
+      const user = res && res.user
 
       if (user) {
         // user is logged in
@@ -55,7 +56,11 @@ class App extends Component {
       }
     })
 
-    this.getHighScores()
+    this.getHighScores().then(res => {
+      if (!res) return
+
+      this.props.setHighScores(res)
+    })
 
   }
 
@@ -71,13 +76,15 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    board: state.board
+    board: state.board,
+    scoreBoard: state.scoreBoard
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    loggedIn: (user) => dispatch(loggedIn(user))
+    loggedIn: (user) => dispatch(loggedIn(user)),
+    setHighScores: (highScores) => dispatch(setHighScores(highScores))
   }
 }
 

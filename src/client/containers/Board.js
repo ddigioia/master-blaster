@@ -231,7 +231,8 @@ class Board extends Component {
         <div className="board-header">
           <ScoreBoard
             currentScore={scoreBoard.currentScore}
-            topScore={scoreBoard.topScore}
+            // highScore={scoreBoard.highScore}
+            highScore={user.userHighScore}
           />
           <span
             className="controls"

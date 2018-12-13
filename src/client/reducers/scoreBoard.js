@@ -3,34 +3,39 @@ import { updateObj } from '../helpers'
 
 let initScoreBoard = {
   currentScore: 0,
-  topScore: getTopScore()
+  highScore: 0,
+  highScores: []
 }
 
-function getTopScore () {
-  return Number(window.sessionStorage.getItem('masterBlasterTopScore'))
+function getHighScore () {
+  return Number(window.sessionStorage.getItem('masterBlasterHighScore'))
 }
 
-function setTopScore (topScore) {
-  return window.sessionStorage.setItem('masterBlasterTopScore', topScore)
+function setHighScore (highScore) {
+  return window.sessionStorage.setItem('masterBlasterHighScore', highScore)
 }
 
 function scoreBoard (state = initScoreBoard, action) {
-  let {currentScore, topScore} = state
+  let {currentScore, highScore} = state
 
   switch (action.type) {
     case constants.START:
       return updateObj(state, initScoreBoard)
+    case constants.SET_HIGH_SCORES:
+      const { highScores } = action
+
+      return updateObj(state, {highScores})
     case constants.ASTEROID_HIT:
       currentScore++
-      if (currentScore > topScore) topScore++
+      if (currentScore > highScore) highScore++
 
-      return updateObj(state, {currentScore, topScore})
+      return updateObj(state, {currentScore, highScore})
     case constants.GAME_OVER:
-      if (state.topScore > getTopScore()) {
-        setTopScore(state.topScore)
+      if (state.highScore > getHighScore()) {
+        setHighScore(state.highScore)
       }
 
-      return updateObj(state, {currentScore, topScore})
+      return updateObj(state, {currentScore, highScore})
     default:
       return state
   }

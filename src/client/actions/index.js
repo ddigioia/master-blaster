@@ -231,6 +231,13 @@ export function setHighScore (userHighScore) {
   }
 }
 
+export function setHighScores (highScores) {
+  return {
+    type: constants.SET_HIGH_SCORES,
+    highScores
+  }
+}
+
 export function createAsteroids (asteroidCount) {
   return {
     type: constants.CREATE_ASTEROIDS,
@@ -375,7 +382,7 @@ export function shipHitTest () {
       if (isHit) {
         dispatch(gameOver(s))
 
-        if (scoreBoard.currentScore >= scoreBoard.topScore) { // should this be user instead?
+        if (scoreBoard.currentScore >= scoreBoard.highScore) { // should this be user instead?
           dispatch(newHighScore(scoreBoard.currentScore))
         }
         break
