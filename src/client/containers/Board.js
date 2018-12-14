@@ -48,7 +48,9 @@ class Board extends Component {
     this.powerUpIntervalId = 0
   }
 
-  handleKeyDown ({keyCode}) {
+  handleKeyDown (event) {
+    const { keyCode } = event
+
     switch (keyCode) {
       case constants.LEFT:
         this.props.rotateLeft()
@@ -63,8 +65,7 @@ class Board extends Component {
         this.props.reverse()
         break
       case constants.SPACE:
-        this.handleFire()
-        // this.props.stopRotation() // prevents spray and pray
+        if (!event.repeat) this.handleFire()
         break
       default:
         break
