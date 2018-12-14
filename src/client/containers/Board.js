@@ -234,7 +234,6 @@ class Board extends Component {
           <ScoreBoard
             gameState={board.gameState}
             currentScore={scoreBoard.currentScore}
-            // highScore={scoreBoard.highScore}
             highScore={user.userHighScore}
             highScores={scoreBoard.highScores}
           />

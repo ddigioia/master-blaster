@@ -19,7 +19,6 @@ class App extends Component {
 
     if (req.status !== 200) throw Error(res.message)
 
-    console.log('Fetched high scores: ', res)
     return res
   }
 
@@ -40,7 +39,6 @@ class App extends Component {
 
       if (req.status !== 200) throw Error(res.message)
 
-      console.log('user: ', res)
       return res
     }
   }
@@ -61,7 +59,6 @@ class App extends Component {
 
       this.props.setHighScores(res)
     })
-
   }
 
   render () {

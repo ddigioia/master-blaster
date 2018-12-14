@@ -227,8 +227,6 @@ function updateUser (req, res, next) {
     }
   } = req
 
-  console.log('token: ', token)
-
   // verify jwt token on these requests
   const verified = jwt.verify(token, {subject: userName})
 

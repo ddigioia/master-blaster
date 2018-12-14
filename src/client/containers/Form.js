@@ -141,7 +141,6 @@ class Form extends Component {
           value={form.name}
           handleChange={this.handleInput}
           onFocus={this.props.hideErrors}
-          // required={true}
         />
         <InputError
           className="input-error invalid-name"
@@ -156,7 +155,6 @@ class Form extends Component {
           value={form.password}
           handleChange={this.handleInput}
           onFocus={this.props.hideErrors}
-          // required={true}
         />
         <InputError
           className="input-error invalid-password"

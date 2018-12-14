@@ -216,8 +216,6 @@ async function getHighScores () {
 
   if (req.status !== 200) throw Error(res.message)
 
-  console.log('Fetched high scores: ', res)
-
   return res
 }
 
