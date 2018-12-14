@@ -42,6 +42,12 @@
   border-bottom: 3px solid white;
 }
 
+.scoreboard-con .scoreboard-title {
+  padding: 10px 0;
+  margin: 0;
+  border-bottom: 3px solid white;
+}
+
 .scoreboard-con .scoreboard-header span {
   display: inline-block;
 }

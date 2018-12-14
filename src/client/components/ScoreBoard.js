@@ -28,8 +28,8 @@ class ScoreBoard extends Component {
         <span className='score top-score'>High Score: {highScore}</span>
         <div className='scoreboard-con' style={{display: (gameState === "paused" || gameState === "gameOver") ? "block" : "none"}}>
           <div className='scoreboard-header'>
-            <span className='scoreboard-user'>User</span>
-            <span className='scoreboard-score'>Score</span>
+            <p className='scoreboard-title'>THE MASTER BLASTERS</p>
+            <span className='scoreboard-user'>User</span><span className='scoreboard-score'>Score</span>
           </div>
           <ul>
               {this.mapScores(highScores)}

@@ -167,7 +167,7 @@ export function loggedOut () {
   }
 }
 
-export function newHighScore (highScore) {
+export function newHighScore (highScore, updateOnlyUser) {
   return (dispatch, getState) => {
     let {
       user
@@ -184,10 +184,12 @@ export function newHighScore (highScore) {
         value: highScore
       }
 
-      sendHighScoreReq(body)
-      sendHighScoreReqUser(body, token)
+      if (updateOnlyUser) {
+        sendHighScoreReqUser(body, token)
+      } else {
+        sendHighScoreReq(body)
+      }
     }
-
     dispatch(setHighScore(highScore))
   }
 }
@@ -204,6 +206,17 @@ async function sendHighScoreReq (body) {
   const req = await fetch(route, reqObj)
   const res = await req.json()
   res.token = req.headers.get('token')
+
+  return res
+}
+
+async function getHighScores () {
+  const req = await fetch('/scores')
+  const res = await req.json()
+
+  if (req.status !== 200) throw Error(res.message)
+
+  console.log('Fetched high scores: ', res)
 
   return res
 }
@@ -384,13 +397,21 @@ export function shipHitTest () {
       let isHit = hitTest(asteroid.asteroids[i], ship)
 
       if (isHit) {
+        const { currentScore, highScores } = scoreBoard
+        const { userHighScore } = user
         dispatch(gameOver(s))
 
-        // if (scoreBoard.currentScore >= scoreBoard.highScore) { // should this be user instead?
-        //  this should check to see if it's higher than the lowest (10th) high score,
-        //  if not then don't call new highScore, just sendHighScoreReqUser
-        if (scoreBoard.currentScore >= user.userHighScore) { // should this be user instead?
-          dispatch(newHighScore(scoreBoard.currentScore))
+        //  this checks to see if it's higher than the lowest (10th) high score,
+        if (currentScore > highScores[9].value) {
+          dispatch(newHighScore(currentScore))
+          getHighScores().then(highScores => {
+            dispatch(setHighScores(highScores))
+          })
+        }
+
+        //  if currentScore is higher than userHighscore then update userHighScore (true)
+        if (currentScore >= userHighScore) {
+          dispatch(newHighScore(currentScore, true))
         }
         break
       }

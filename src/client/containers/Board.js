@@ -102,6 +102,7 @@ class Board extends Component {
     this.props.shipHitTest()
     this.props.powerUpHitTest()
     this.props.update()
+
     window.requestAnimationFrame(this.updateGame.bind(this))
   }
 
@@ -116,13 +117,13 @@ class Board extends Component {
       if (rangeMax < batchMax) rangeMax *= increment
 
       count = randomNumInRange(rangeMin, Math.floor(rangeMax))
-      this.props.createAsteroids(count)
+      if (document.visibilityState === 'visible') this.props.createAsteroids(count)
     }, 2000)
   }
 
   powerUpCreator () {
     this.powerUpIntervalId = window.setInterval(() => {
-      this.props.createPowerUp()
+      if (document.visibilityState === 'visible') this.props.createPowerUp()
     }, 5000)
   }
 
