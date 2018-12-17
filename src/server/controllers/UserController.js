@@ -7,7 +7,6 @@ const jwt = require('../jwt')
 const { body, validationResult } = require('express-validator/check')
 
 // middleware
-// ** Can include other bodyparser methods if needed **
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
 
@@ -248,7 +247,7 @@ function updateUser (req, res, next) {
 // routes
 
 // returns all users
-router.get('/', getAllUsers)
+// router.get('/', getAllUsers)
 
 // returns a single user
 router.get('/:userName', getSingleUser)

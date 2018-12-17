@@ -72,7 +72,7 @@ function getUserScore (req, res, next) {
   const verified = jwt.verify(token, {subject: userName})
 
   if (verified) {
-    getScoreByUserName(userName)
+    fetchScoreByUserName(userName)
       .then(score => {
         res
           .status(200)
